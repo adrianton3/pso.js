@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	</head>
+	<body>
+		<script type="text/javascript" src="../../src/pso.js"></script>
+		<script type="text/javascript" src="simple.js"></script>
+		<canvas id="canvaspso" width="600" height="200" style="border-style:solid">
+			No canvas :(
+		</canvas>	
+			
+		<table>
+	 <tr><td>
+	  Start the search
+	 </td><td>
+	  <input id="but_start" type="button" value="Start" style="width: 64px"/>
+	 </td></tr>
+	 
+	 <tr><td>
+	  Stop the search
+	 </td><td>
+	  <input id="but_stop" type="button" value="Stop" style="width: 64px"/>
+	 </td></tr>
+	 
+	 <tr><td>
+	  Best so far
+	 </td><td>
+	  <input id="out_best" type="text" value="" readonly="readonly" size="50"/>
+	 </td></tr>
+	 
+	 <tr><td colspan="2">
+	  <hr />
+	 </td></tr>
+	 
+	 <tr><td>
+	  Delay between interations (in miliseconds)
+	 </td><td>
+	  <input id="inp_delay" type="text" value="50" size="3" />
+	 </td></tr>
+	 
+	 <tr><td>
+	  Number of iterations
+	 </td><td>
+	  <input id="inp_niter" type="text" value="50" size="3" />
+	 </td></tr>
+	 
+	 <tr><td>
+	  Population dimension
+	 </td><td>
+	  <input id="inp_popinit" type="text" value="10" size="3" />
+	 </td></tr>
+	 
+	 <tr><td>
+	  Inertia weight
+	 </td><td>
+	  <input id="inp_accel" type="text" value="0.6" size="3" />
+	 </td></tr>
+	   
+	 <tr><td>
+	  Social influence
+	 </td><td>
+	  <input id="inp_social" type="text" value="0.7" size="3" />
+	 </td></tr>
+	 
+	 <tr><td>
+	  Personal influence
+	 </td><td>
+	  <input id="inp_personal" type="text" value="0.3" size="3" />
+	 </td></tr>
+	   
+	 <tr><td>
+	  Function to maximize
+	 </td><td>
+	   <select id="lst_func">
+	    <option>Rastrigin (x in [-5.12,5.12])</option>
+	    <option>Easom (x in [-30,30])</option>
+	    <option>exp(-(x-5)^2)*20 + cos(x*10) (x in [-10,10])</option>
+	    <option>x^2 (x in [-5,5])</option>
+	   </select>
+	 </td></tr>
+	</table>
+	<br><br>
+pso.js demo
+	</body>
+</html>
