@@ -192,9 +192,13 @@
 				PSO: PSO
 			};
 		});
-	}  
-
-  window.Interval = Interval;
-  window.Particle = Particle;
-  window.PSO = PSO; 
+	} else if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+		self.Interval = Interval;
+	  self.Particle = Particle;
+	  self.PSO = PSO;
+	} else {
+	  window.Interval = Interval;
+	  window.Particle = Particle;
+	  window.PSO = PSO;
+  } 
 })();
