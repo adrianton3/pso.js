@@ -5,7 +5,7 @@
 	var parameters;
 	var gui;
 	var mechanism;
-	var dummy = {};
+	var dummy;
 
 	var mouseState = {
 		down: false
@@ -94,13 +94,17 @@
 			gui.add(dummy, 'reset');
 		}
 		
+		function setupDummy() {
+			dummy = {};
+			dummy.animate = startStopAnimation.bind(this);
+			dummy.search = run;
+			dummy.reset = reset;
+		}
+		
 		setupCanvas();
 		setupParameters();
-		setupMechanism();
-		
-		dummy.animate = startStopAnimation.bind(this);
-		dummy.search = run;
-		dummy.reset = reset;
+		setupMechanism();		
+		setupDummy();
 		
 		setupGUI();
 	}
