@@ -1,0 +1,38 @@
+.text {
+	color: #FFFFFF;
+	font-family: sans-serif;
+}
+
+.title {
+	font-size: small;
+}
+
+html {
+	height:100%;
+	margin:0;
+	padding:0;
+}
+
+body {
+	background-color: #00060C;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.band {
+	background-color: #123;
+	height:100%;
+	max-width: 602px;
+	margin: 0 auto;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+canvas {
+	border: 1px solid black;
+	position: relative;
+	background-color: #234;
+}
