@@ -1,5 +1,5 @@
 importScripts('../../src/pso.js');
-importScripts('Mechanism.js');
+importScripts('mechanism.js');
 
 var parameters;
 var mechanism;
@@ -31,10 +31,10 @@ onmessage = function(ev) {
 	id = ev.data.id;
 	var userPointSet = ev.data.userPointSet;
 	var parameterListing = ev.data.parameterListing;
-	
+
 	parameters = getDefaults(parameterListing);
 	mechanism = new Mechanism(parameters);
-	
+
 	var domain = getDomain(parameterListing);
 	var nStep = 50;
 	var initialPopulationSize = 30;
@@ -42,20 +42,20 @@ onmessage = function(ev) {
 	var bestFit = -Infinity;
 	var bestPosition;
 	var nTrials = 5;
-	
+
 	for (var i = 0; i < nTrials; i++) {
 		var candidate = runPSO(domain, computeFitness, nStep, initialPopulationSize);
 		if (candidate.bestFitness > bestFit) {
 			bestFitness = candidate.bestFitness;
 			bestPosition = candidate.bestPosition;
-			
+
 			postMessage({ bestFitness: bestFitness, bestPosition: bestPosition });
 		}
 	}
-	
+
 	postMessage({ done: true });
 	self.close();
-	
+
 //-----------------------------------------------------------------------------
 	function computeDistances(targetPointSet, candidatePointSet) {
 	// verify for impossible paths
@@ -68,7 +68,7 @@ onmessage = function(ev) {
 
 	// compute sum of mse
 	var sum = 0;
-	
+
 	targetPointSet.forEach(function(targetPoint){
 		var min = Infinity;
 		candidatePointSet.forEach(function(candidatePoint) {
@@ -79,29 +79,29 @@ onmessage = function(ev) {
 		});
 		sum += min;
 	});
-	
+
 	return sum;
 }
 
 	function computeFitness(ar) {
 		var cycles = 100;
-		
-		getParameters(ar, parameterListing, parameters);		
+
+		getParameters(ar, parameterListing, parameters);
 		var candidatePointSet = mechanism.getPointSet(cycles);
 		var dist = -computeDistances(userPointSet, candidatePointSet);
 		return dist;
 	}
-	
+
 	function runPSO(domain, objectiveFunction, nStep, initialPopulationSize) {
     var pso = new PSO();
-    pso.setOptions({ 
+    pso.setOptions({
 	 		inertiaWeight: 0.8,
 	 		social: 0.6,
 	 		personal: 0.4
 		});
     pso.init(initialPopulationSize, domain);
     pso.setObjectiveFunction(objectiveFunction);
-    
+
     for (var i = 0; i < nStep; i++) {
         pso.step();
     }
