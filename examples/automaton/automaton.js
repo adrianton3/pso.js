@@ -47,6 +47,7 @@
 		function setupCanvas() {
 			var canvas = document.getElementById('canvaspso');
 			Draw.init(canvas);
+            Draw.clearColor('#F00');
 	
 			canvas.addEventListener('mousemove', onMouseMove, false);
 			canvas.addEventListener('mousedown', onMouseDown, false);
@@ -79,7 +80,7 @@
 		function setupGUI() {
 			gui = new dat.GUI();
 			
-			parameterListing.forEach(function(element) {
+			parameterListing.forEach(function (element) {
 				gui.add(parameters, element.key, element.interval.start, element.interval.end, 0.1).onChange(function(value) {
 					Draw.clear();
 					drawUserPointSet();

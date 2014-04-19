@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="circles.css">
+	</head>
+	<body>
+		<script type="text/javascript" src="../../src/pso.js"></script>
+        <script type="text/javascript" src="circles.js"></script>
+        <script type="text/javascript" src="../lib/draw.js"></script>
+
+		<canvas id="canvascircles" width="500" height="500" style="float: left">
+			No canvas :(
+		</canvas>
+
+        <table>
+            <tr><td colspan="2">
+                <span class="text title">Circles | pso.js demo</span>
+                <br>
+                <span class="text desc">
+			        pso.js is used to place the circle of maximum radius without colliding with any existing circles or bounds
+		        </span>
+            </td></tr>
+
+            <tr><td colspan="2">
+                <hr>
+            </td></tr>
+
+            <tr><td>
+                Controls
+            </td><td>
+                <button id="but_reset">Reset</button>
+                <button id="but_best">Find best</button>
+                <button id="but_rand_rand">Random</button>
+                <button id="but_rand_max">Random max</button>
+            </td></tr>
+
+            <tr><td colspan="2">
+                <hr>
+            </td></tr>
+
+            <tr><td>
+                Number of iterations
+            </td><td>
+                <input id="inp_niter" type="text" value="50" size="3" />
+            </td></tr>
+
+            <tr><td>
+                Population dimension
+            </td><td>
+                <input id="inp_popinit" type="text" value="10" size="3" />
+            </td></tr>
+
+            <tr><td>
+                Inertia weight
+            </td><td>
+                <input id="inp_accel" type="text" value="0.6" size="3" />
+            </td></tr>
+
+            <tr><td>
+                Social influence
+            </td><td>
+                <input id="inp_social" type="text" value="0.7" size="3" />
+            </td></tr>
+
+            <tr><td>
+                Personal influence
+            </td><td>
+                <input id="inp_personal" type="text" value="0.3" size="3" />
+            </td></tr>
+        </table>
+	</body>
+</html>
