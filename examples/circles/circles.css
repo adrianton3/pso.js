@@ -1,0 +1,17 @@
+canvas {
+    float: left;
+    border: 2px solid black;
+    margin-right: 20px;
+}
+
+button {
+    width: 96px;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+.title {
+    font-size: small;
+}
