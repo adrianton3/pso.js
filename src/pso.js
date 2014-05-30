@@ -2,7 +2,7 @@
  pso.js 0.1 Copyright (c) 2013, Adrian Toncean
  Available via the MIT or new BSD license
 */
-(function() {
+(function () {
 	'use strict';
 	
 	function Particle(position, velocity, inertiaWeight, social, personal) {
@@ -18,13 +18,13 @@
 	}
 	
 	Particle.prototype = {
-		storePosition: function() {
+		storePosition: function () {
 			for (var i = 0; i < this.position.length; i++) {
 				this.bestPosition[i] = this.position[i];
 			}
 		},
 	
-		getPosition: function() {
+		getPosition: function () {
 			var ret = [];
 			for (var i = 0; i < this.position.length; i++) {
 				ret.push(this.position[i]);
@@ -32,7 +32,7 @@
 			return ret;
 		},
 		
-		getBestPosition: function() {
+		getBestPosition: function () {
 			var ret = [];
 			for (var i = 0; i < this.position.length; i++) {
 				ret.push(this.bestPosition[i]);
@@ -40,7 +40,7 @@
 			return ret;
 		},
 	
-		updateVelocity: function(globalBest) {
+		updateVelocity: function (globalBest) {
 			for (var i = 0; i < this.position.length; i++) {
 				this.velocity[i] = this.velocity[i] * this.inertiaWeight + 
 					(globalBest.position[i] - this.position[i]) * Math.random() * this.social + 
@@ -48,15 +48,15 @@
 			}
 		},
 	
-		updatePosition: function() {
+		updatePosition: function () {
 			for (var i = 0; i < this.position.length; i++) {
 				this.position[i] += this.velocity[i];
 			}
 		}
 	};
 	
-	Particle.createRandom = function(domain, options, velocityMultiplier) {
-		velocityMultiplier = typeof velocityMultipler === 'undefined' ? 0.1 : velocityMultiplier; 
+	Particle.createRandom = function (domain, options, velocityMultiplier) {
+		velocityMultiplier = typeof velocityMultiplier === 'undefined' ? 0.1 : velocityMultiplier;
 		var position = [];
 		var velocity = [];
 		for (var i = 0; i < domain.length; i++) {
@@ -73,7 +73,7 @@
 	//=============================================================================
 	function PSO() {
 		this.particles = null;
-		this.objecttiveFunction = null;
+		this.objectiveFunction = null;
 		
 		this.bestPositionEver = null;
 		this.bestFitnessEver = -Infinity;
@@ -86,21 +86,23 @@
 	}
 	
 	PSO.prototype = {
-		setOptions: function(options) {
+		setOptions: function (options) {
 			this.options = options || {};
 			this.options.inertiaWeight = this.options.inertiaWeight !== undefined ? this.options.inertiaWeight : 0.8;
 			this.options.social = this.options.social !== undefined ? this.options.social : 0.4;
 			this.options.personal = this.options.personal !== undefined ? this.options.personal : 0.4;
 		},
 		
-		setObjectiveFunction: function(objectiveFunction) {
+		setObjectiveFunction: function (objectiveFunction) {
 			this.objectiveFunction = objectiveFunction;
 		},
 		
-		init: function(nParticles, generationOption) {			
+		init: function (nParticles, generationOption) {
 			var generator = generationOption instanceof Function ?
-				function() { return geneationOption(); } :
-				function() { return Particle.createRandom(generationOption, this.options); }.bind(this);
+				function () { return generationOption(); } :
+				function () {
+					return Particle.createRandom(generationOption, this.options);
+				}.bind(this);
 			
 			this.iteration = 0;
 			this.bestPositionEver = null;
@@ -112,10 +114,10 @@
 			}
 		},
 	
-		getRandomBest: function(except) {
+		getRandomBest: function (except) {
 			var ret = (Math.random() * this.particles.length) | 0;
 			
-			this.particles.forEach(function(particle, index) {
+			this.particles.forEach(function (particle, index) {
 				if (Math.random() < this.pressure &&
 					this.particles[index].fitness > this.particles[ret].fitness && 
 					index !== except) {
@@ -126,15 +128,15 @@
 			return ret;
 		},
 	
-		step: function() {
-			this.particles.forEach(function(particle) {		
+		step: function () {
+			this.particles.forEach(function (particle) {
 				particle.fitness = this.objectiveFunction(particle.position);
 				
-				if(particle.fitness > particle.bestFitness) {
+				if (particle.fitness > particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
 					particle.storePosition();
 		
-					if(particle.fitness > this.bestFitnessEver) {
+					if (particle.fitness > this.bestFitnessEver) {
 						this.bestFitnessEver = particle.fitness;
 						this.bestPositionEver = particle.getPosition();
 					}
@@ -142,42 +144,42 @@
 			}.bind(this));
 		 
 			// update velocities
-			this.particles.forEach(function(particle, index) {
+			this.particles.forEach(function (particle, index) {
 				var randomBest = this.particles[this.getRandomBest(index)];
 				particle.updateVelocity(randomBest);
 			}.bind(this));
 		    
 			// update positions
-			this.particles.forEach(function(particle, index) {
+			this.particles.forEach(function (particle) {
 				particle.updatePosition();
 			});
 			
 			this.iteration++;
 		},
 	
-		getParticles: function() {
-			return this.particles.map(function(particle) {
+		getParticles: function () {
+			return this.particles.map(function (particle) {
 				return particle.getPosition();
 			});
 		},
 		
-		getParticlesBest: function() {
-			return this.particles.map(function(particle) {
+		getParticlesBest: function () {
+			return this.particles.map(function (particle) {
 				return particle.getBestPosition();
 			});
 		},
 	
-		getBestPosition: function() {
+		getBestPosition: function () {
 			return this.bestPositionEver;
 		},
 	
-		getBestFitness: function() {
+		getBestFitness: function () {
 			return this.bestFitnessEver;
 		},
 	
-		getMeanFitness: function() {
+		getMeanFitness: function () {
 			var sum = 0;
-			this.particles.forEach(function(particle) {
+			this.particles.forEach(function (particle) {
 		  	sum += particle.fitness;
 			});
 		  return sum / this.particles.length;
@@ -185,7 +187,7 @@
 	};
 	//=============================================================================
 	if (typeof define === 'function' && define.amd) {
-		define(function() {
+		define(function () {
 			return {
 				Interval: Interval,
 				Particle: Particle,
@@ -194,11 +196,11 @@
 		});
 	} else if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
 		self.Interval = Interval;
-	  self.Particle = Particle;
-	  self.PSO = PSO;
+		self.Particle = Particle;
+		self.PSO = PSO;
 	} else {
-	  window.Interval = Interval;
-	  window.Particle = Particle;
-	  window.PSO = PSO;
-  } 
+		window.Interval = Interval;
+		window.Particle = Particle;
+		window.PSO = PSO;
+	}
 })();
