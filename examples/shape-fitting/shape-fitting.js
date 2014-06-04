@@ -8,6 +8,26 @@
     var domain;
 	var shapes;
 	var nShapes = 4;
+	var shapeGenerators = {
+		style: {
+			regular: function () { return 0.2; },
+			star: function (i) { return (i % 2) * 0.15 + 0.05; },
+			random: function () { return Math.random() * 0.2 + 0.05; }
+		},
+		angles: {
+			triangle: function () { return 3; },
+			tetragon: function () { return 4; },
+			pentagon: function () { return 5; },
+			hexagon: function () { return 6; },
+			octogon: function () { return 8; },
+			random: function () { return Math.floor(Math.random() * 5) + 3; }
+		}
+	};
+	var currentGenerator = {
+		style: shapeGenerators.style.random,
+		angles: shapeGenerators.angles.random
+	};
+
 	var running = false;
 
 	function repeat(n, fun) {
@@ -21,12 +41,12 @@
 	}
 
 	function getShape() {
-		var nPoints = Math.floor(Math.random() * 5) + 3;
+		var nPoints = currentGenerator.angles();
 		return {
 			color: getRandomColor(),
 			points: repeat(nPoints, function (i) {
 				var angle = i / nPoints * Math.PI * 2;
-				var radius = Math.random() * 0.1 + 0.1;
+				var radius = currentGenerator.style(i);
 				return {
 					x: Math.cos(angle) * radius,
 					y: Math.sin(angle) * radius
@@ -46,7 +66,7 @@
 				new Interval(0, 1),
 				new Interval(0, 1),
 				new Interval(0, Math.PI * 2),
-				new Interval(1.0, 2.0)
+				new Interval(0.2, 1.4)
 			);
 		});
 		return domain;
@@ -72,7 +92,7 @@
 				var cx = x[i * 4 + 0];
 				var cy = x[i * 4 + 1];
 				var angle = x[i * 4 + 2];
-				var scale = Math.min(x[i * 4 + 3], 2.0);
+				var scale = Math.min(x[i * 4 + 3], 1.4);
 				drawShape(con2d, shape.points, cx, cy, angle, scale);
 			});
 
@@ -121,6 +141,7 @@
     function reset() {
 		if (running) { return; }
 
+		updateShapeParameters();
 		shapes = getShapes(nShapes);
 		domain = getDomain(nShapes);
 
@@ -142,7 +163,7 @@
     function best() {
 		if (running) { return; }
 
-		updateParameters();
+		updatePsoParameters();
 
 		pso.init(initialPopulationSize, domain);
 
@@ -186,7 +207,7 @@
 		loop();
     }
 
-    function updateParameters() {
+    function updatePsoParameters() {
         iterationNMax = parseInt(document.getElementById('inp_niter').value);
 
         initialPopulationSize = parseInt(document.getElementById('inp_popinit').value);
@@ -201,6 +222,17 @@
         });
     }
 
+	function updateShapeParameters() {
+		var shapeAngles = document.getElementById('shape-angles');
+		var shapeStyle = document.getElementById('shape-style');
+
+		var angles = shapeAngles.options[shapeAngles.selectedIndex].value;
+		var style = shapeStyle.options[shapeStyle.selectedIndex].value;
+
+		currentGenerator.style = shapeGenerators.style[style];
+		currentGenerator.angles = shapeGenerators.angles[angles];
+	}
+
     function setup() {
         Draw.init(document.getElementById('canvascircles'));
 
@@ -213,6 +245,10 @@
         Draw.lineColor('#000');
 
 		Draw.scale(500, 500);
+
+		updateShapeParameters();
+		shapes = getShapes(nShapes);
+		domain = getDomain(nShapes);
     }
 
     window.addEventListener('load', setup);
