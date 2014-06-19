@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>pso.js + p2.js: pool</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="pool.css">
+    <script src="../lib/p2.min.js"></script>
+    <script src="draw-a.js"></script>
+</head>
+<body>
+    <div class="title">pso.js + p2.js</div>
+    <div class="desc">In this example pso.js will be used to try to get as many balls in the pockets as possible in the first/break shot.<br>The physics simulations are handled by the physics library p2.js</div>
+    <br>
+
+    <canvas width="400" height="400" id="plot-can"></canvas>
+    <canvas width="400" height="400" id="sim-can"></canvas>
+
+    <br>
+
+    <table>
+        <tr>
+            <td class="title spaced">Plotting controls</td>
+            <td>Angle samples</td>
+            <td class="spaced"><select id="resolutionX" value="10"></select></td>
+            <td>Force samples</td>
+            <td class="spaced"><select id="resolutionY" value="10"></select></td>
+            <td><button id="plot">Plot</button></td>
+        </tr>
+        <tr>
+            <td class="title spaced">Optimizer controls</td>
+            <td>Number of particles</td>
+            <td class="spaced"><select id="particles" value="10"></select></td>
+            <td>Iterations</td>
+            <td class="spaced"><select id="iterations" value="50"></select></td>
+            <td><button id="best">Search</button></td>
+        </tr>
+    </table>
+
+    <br>
+    <br>
+    <div class="desc">The only parameters that a simulation takes are the angle of the shot and the force applied. Angle varies between PI/4 and PI/2 (the range has been halved since the setup of table is symmetric). The force varies between 200 and 2000 units (in p2 terms). In the plot, the angle varies on the X (horizontal) axis and the force varies on the Y (vertical) axis.</div>
+
+
+    <script type="text/javascript" src="../../src/pso.js"></script>
+
+    <script src="simulation.js"></script>
+    <script src="plotter.js"></script>
+    <script src="reverse-coords.js"></script>
+    <script src="pool.js"></script>
+</body>
+</html>

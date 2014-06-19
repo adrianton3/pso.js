@@ -1,0 +1,29 @@
+body {
+    font-family: sans-serif;
+    font-size: small;
+}
+
+canvas {
+    border: solid grey 1px;
+    position: relative;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.desc {
+    max-width: 800px;
+}
+
+.spaced {
+    padding-right: 24px;
+}
+
+select {
+    width: 48px;
+}
+
+button {
+    width: 64px;
+}
