@@ -1,21 +1,24 @@
 (function () {
 	'use strict';
 
-	function populateSelect(id, start, end, step) {
+	function populateSelect(id, start, end, step, def) {
 		var select = document.getElementById(id);
 		for (var i = start; i <= end; i += step) {
 			var option = document.createElement('option');
 			option.value = i + '';
 			option.text = i + '';
+			if (def === i) {
+				option.selected = 'selected';
+			}
 			select.appendChild(option);
 		}
 	}
 
-	populateSelect('resolutionX', 10, 120, 10);
-	populateSelect('resolutionY', 10, 120, 10);
+	populateSelect('resolutionX', 10, 120, 10, 10);
+	populateSelect('resolutionY', 10, 120, 10, 10);
 
-	populateSelect('particles', 10, 30, 2);
-	populateSelect('iterations', 10, 70, 10);
+	populateSelect('particles', 10, 30, 2, 20);
+	populateSelect('iterations', 10, 70, 10, 50);
 
 	plotter.init(document.getElementById('plot-can'));
 
@@ -123,9 +126,10 @@
 
 
 	document.getElementById('best').addEventListener('click', ifIdle(function () {
-		var initialPopulationSize = 20;
+		var initialPopulationSize = +document.getElementById('particles').value;
+		var iterationNMax = +document.getElementById('iterations').value;
+
 		var domain = [new Interval(Math.PI / 3, Math.PI / 2), new Interval(200, 2000)];
-		var iterationNMax = 50;
 
 		// get a new optimizer and set it up
 		var pso = new PSO();
