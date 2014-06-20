@@ -12,6 +12,7 @@ Sample applications
 Pso.js is launched in this case by web workers
 + [circles](http://madflame991.github.io/pso.js/examples/circles/circles.html) A simple application that optimizes a two dimensional function
 + [shape-fitting](http://madflame991.github.io/pso.js/examples/shape-fitting/shape-fitting.html) Optimizes the positioning of arbitrary shapes in a square
++ [pool](http://madflame991.github.io/pso.js/examples/pool/pool.html) Optimizes the breaking shot of a pool game
 
 Usage
 -----
