@@ -91,6 +91,18 @@
 		return condition(isIdle, begin(setBusy, fun));
 	}
 
+	function printGreeting() {
+		var canvas = document.getElementById('sim-can');
+		var con2d = canvas.getContext('2d');
+
+		con2d.font = '12px sans-serif';
+
+		var text = 'When the plotting is done, click on the canvas \nto run the simulation associated with that pair of parameters';
+		text.split('\n').forEach(function (line, i) {
+			con2d.fillText(line, 10, 200 + i * 14);
+		});
+	}
+
 	var plot = ifIdle(function () {
 		space.resolutionX = +document.getElementById('resolutionX').value;
 		space.resolutionY = +document.getElementById('resolutionY').value;
@@ -105,6 +117,7 @@
 
 	document.getElementById('plot').addEventListener('click', plot);
 
+	printGreeting();
 	plot();
 
 	// set up the click-on-the-canvas-to-get-an-animation
