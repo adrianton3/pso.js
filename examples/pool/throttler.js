@@ -5,9 +5,6 @@
 		var iterationCount = 0;
 
 		function loop() {
-//			pso.step();
-//			console.log(iterationCount, iterationNMax);
-
 			iterationCount++;
 
 			stepCallback(iterationCount);
@@ -16,6 +13,24 @@
 				completionCallback();
 			} else {
 				setTimeout(loop, 4);
+			}
+		}
+
+		loop();
+	}
+
+	function repeatAnim(iterationNMax, stepCallback, completionCallback) {
+		var iterationCount = 0;
+
+		function loop() {
+			iterationCount++;
+
+			stepCallback(iterationCount);
+
+			if (iterationCount >= iterationNMax) {
+				completionCallback();
+			} else {
+				requestAnimationFrame(loop);
 			}
 		}
 
@@ -46,5 +61,6 @@
 
 	window.throttler = window.throttler || {};
 	window.throttler.repeatDelayed = repeatDelayed;
+	window.throttler.repeatAnim = repeatAnim;
 	window.throttler.execDelayed = execDelayed;
 })();

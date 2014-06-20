@@ -16,6 +16,15 @@ canvas {
     max-width: 800px;
 }
 
+#status-container {
+    font-weight: bold;
+    padding-left: 1px;
+}
+
+#status {
+    font-weight: normal;
+}
+
 .spaced {
     padding-right: 24px;
 }
@@ -26,4 +35,8 @@ select {
 
 button {
     width: 64px;
+}
+
+td {
+    padding-left: 0;
 }

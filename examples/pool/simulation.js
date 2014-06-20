@@ -189,9 +189,8 @@
 
 		var nFrames = 300;
 		var stepSize = 1 / 60;
-		var frameCounter = 0;
 
-		function animate(params, canvas) {
+		function animate(params, canvas, completionCallback) {
 			initCanvas(canvas);
 			initWorld();
 
@@ -200,16 +199,10 @@
 				[mainBall.body.position[0], mainBall.body.position[1]]
 			);
 
-			function loop() {
-				frameCounter++;
-				if (frameCounter >= nFrames) { return; }
-
-				requestAnimationFrame(loop);
+			throttler.repeatAnim(nFrames, function () {
 				world.step(stepSize);
 				render();
-			}
-
-			loop();
+			}, completionCallback);
 		}
 
 		function compute(params) {
