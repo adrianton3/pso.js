@@ -97,7 +97,7 @@
 			return pool.compute({ angle: angle, force: force });
 		}, function (i, total) {
 			setStatus('plotting; computing cell ' + i + ' out of ' + total);
-		}, setIdle.bind(null, 'Idle'));
+		}, setIdle.bind(null, 'idle'));
 	});
 
 	document.getElementById('plot').addEventListener('click', plot);
@@ -110,14 +110,14 @@
 		space,
 		plotter.zoom,
 		ifIdle(function (x, y) {
-			console.log('angle:', x, 'force:', y);
+			setStatus('running simulation for (angle: ' + x + ', force: ' + y + ')');
 
 			var pool = makeSimulation();
 			pool.animate({
 				angle: x,
 				force: y
 			}, document.getElementById('sim-can'),
-				setIdle.bind(null, 'Idle')
+				setIdle.bind(null, 'idle')
 			);
 		}));
 
@@ -144,12 +144,13 @@
 			var position = pso.getBestPosition();
 
 			// play the best solution found
+			setStatus('running simulation for (angle: ' + position[0] + ', force: ' + position[1] + ')');
 			var pool = makeSimulation();
 			pool.animate({
 				angle: position[0],
 				force: position[1]
 			}, document.getElementById('sim-can'),
-				setIdle.bind(null, 'Idle')
+				setIdle.bind(null, 'idle')
 			);
 		});
 	}));
