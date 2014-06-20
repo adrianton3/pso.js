@@ -74,20 +74,10 @@
 		});
 		pso.init(initialPopulationSize, domain);
 
-
-		var iterationCount = 0;
-		function loop() {
+		throttler.repeatDelayed(iterationNMax, function (i) {
 			pso.step();
-			iterationCount++;
-			console.log(iterationCount, iterationNMax);
-
-			if (iterationCount >= iterationNMax) {
-				complete();
-			} else {
-				setTimeout(loop, 4);
-			}
-		}
-		loop();
+			console.log(i, iterationNMax);
+		}, complete);
 
 		function complete() {
 			var position = pso.getBestPosition();

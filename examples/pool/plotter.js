@@ -53,29 +53,6 @@
 		return jobs;
 	}
 
-	var maxTime = 100;
-
-	function execJobs(jobs, progressCallback, completionCallback) {
-		var i = 0;
-
-		function execBatch() {
-			var startTime = performance.now();
-			while (i < jobs.length && performance.now() - startTime < maxTime) {
-				jobs[i]();
-				i++;
-				progressCallback(i, jobs.length);
-			}
-
-			if (i >= jobs.length) {
-				completionCallback();
-			} else {
-				setTimeout(execBatch, 4);
-			}
-		}
-
-		execBatch();
-	}
-
 	function updateZoom(element, resolutionX, resolutionY) {
 		zoom.x = element.width / resolutionX;
 		zoom.y = element.height / resolutionY;
@@ -94,7 +71,7 @@
 			console.log('done');
 		};
 
-		execJobs(jobs, onProgress, onCompletion);
+		throttler.execDelayed(jobs, onProgress, onCompletion);
 	}
 
 	window.plotter = window.plotter || {};
