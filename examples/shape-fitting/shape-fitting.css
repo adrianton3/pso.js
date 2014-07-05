@@ -15,3 +15,7 @@ body {
 .title {
     font-size: small;
 }
+
+a {
+  color: black;
+}
