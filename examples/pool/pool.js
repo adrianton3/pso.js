@@ -146,7 +146,6 @@
 
 		// get a new optimizer and set it up
 		var optimizer = new pso.Optimizer();
-		optimizer.setOptions();
 		optimizer.setObjectiveFunction(function (x) {
 			var pool = makeSimulation();
 			return pool.compute({ angle: x[0], force: x[1] });

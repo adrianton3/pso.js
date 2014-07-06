@@ -80,17 +80,25 @@
 		this.iteration = 0;
 		this.pressure = 0.5;
 	 
-		this.inertiaWeight = 0.8;
-		this.social = 0.4;
-		this.personal = 0.4;
+		this.options = {
+			inertiaWeight: 0.8,
+			social: 0.4,
+			personal: 0.4
+		};
 	}
 
 	Optimizer.prototype = {
 		setOptions: function (options) {
-			this.options = options || {};
-			this.options.inertiaWeight = this.options.inertiaWeight !== undefined ? this.options.inertiaWeight : 0.8;
-			this.options.social = this.options.social !== undefined ? this.options.social : 0.4;
-			this.options.personal = this.options.personal !== undefined ? this.options.personal : 0.4;
+			options = options || {};
+			if (options.inertiaWeight !== undefined) {
+				this.options.inertiaWeight = options.inertiaWeight;
+			}
+			if (options.social !== undefined) {
+				this.options.social = options.social;
+			}
+			if (options.personal !== undefined) {
+				this.options.personal = options.personal;
+			}
 		},
 		
 		setObjectiveFunction: function (objectiveFunction) {
