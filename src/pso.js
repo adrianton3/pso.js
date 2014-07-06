@@ -71,7 +71,7 @@
 		this.end = end;
 	}
 	//=============================================================================
-	function PSO() {
+	function Optimizer() {
 		this.particles = null;
 		this.objectiveFunction = null;
 		
@@ -84,8 +84,8 @@
 		this.social = 0.4;
 		this.personal = 0.4;
 	}
-	
-	PSO.prototype = {
+
+	Optimizer.prototype = {
 		setOptions: function (options) {
 			this.options = options || {};
 			this.options.inertiaWeight = this.options.inertiaWeight !== undefined ? this.options.inertiaWeight : 0.8;
@@ -187,20 +187,20 @@
 	};
 	//=============================================================================
 	if (typeof define === 'function' && define.amd) {
-		define(function () {
-			return {
-				Interval: Interval,
-				Particle: Particle,
-				PSO: PSO
-			};
-		});
+		define('pso/Interval', [], function () { return Interval; });
+		define('pso/Particle', [], function () { return Particle; });
+		define('pso/Optimizer', [], function () { return Optimizer; });
 	} else if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
-		self.Interval = Interval;
-		self.Particle = Particle;
-		self.PSO = PSO;
+		self.pso = {
+			Interval: Interval,
+			Particle: Particle,
+			Optimizer: Optimizer
+		};
 	} else {
-		window.Interval = Interval;
-		window.Particle = Particle;
-		window.PSO = PSO;
+		window.pso = {
+			Interval: Interval,
+			Particle: Particle,
+			Optimizer: Optimizer
+		};
 	}
 })();

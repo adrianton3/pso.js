@@ -142,23 +142,23 @@
 		var initialPopulationSize = +document.getElementById('particles').value;
 		var iterationNMax = +document.getElementById('iterations').value;
 
-		var domain = [new Interval(Math.PI / 3, Math.PI / 2), new Interval(200, 2000)];
+		var domain = [new pso.Interval(Math.PI / 3, Math.PI / 2), new pso.Interval(200, 2000)];
 
 		// get a new optimizer and set it up
-		var pso = new PSO();
-		pso.setOptions();
-		pso.setObjectiveFunction(function (x) {
+		var optimizer = new pso.Optimizer();
+		optimizer.setOptions();
+		optimizer.setObjectiveFunction(function (x) {
 			var pool = makeSimulation();
 			return pool.compute({ angle: x[0], force: x[1] });
 		});
-		pso.init(initialPopulationSize, domain);
+		optimizer.init(initialPopulationSize, domain);
 
 		// start the search
 		throttler.repeatDelayed(iterationNMax, function (i) {
-			pso.step();
+			optimizer.step();
 			setStatus('optimizing; running iteration ' + i + ' out of ' + iterationNMax);
 		}, function () {
-			var position = pso.getBestPosition();
+			var position = optimizer.getBestPosition();
 
 			// play the best solution found
 			setStatus('running simulation for (angle: ' + position[0] + ', force: ' + position[1] + ')');

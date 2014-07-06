@@ -1,18 +1,8 @@
-require.config({
-	paths: {
-		'pso': '../../src/pso'
-	}
-});
-
-require(['pso'], function(pso) {
+require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	'use strict';
 
-	var Interval = pso.Interval;
-	var Particle = pso.Particle;
-	var PSO = pso.PSO;
-
 	var canvas, con2d;
-	var pso = new PSO();
+	var optimizer = new Optimizer();
 	var iteration = 0, iterationNMax = 20;
 	var delay = 50;
 	var domain = null;
@@ -39,11 +29,11 @@ require(['pso'], function(pso) {
 	}
 	
 	function init()	{
-		pso.init(initialPopulationSize, domain);
+		optimizer.init(initialPopulationSize, domain);
 	}
 	
 	function step()	{
-		pso.step();		
+		optimizer.step();
 		drawFunction();		
 		drawPopulationBest();
 		drawPopulation();
@@ -61,7 +51,7 @@ require(['pso'], function(pso) {
 		con2d.strokeStyle = '#F04';
 		
 		con2d.beginPath();
-		var particlePoisitons = pso.getParticles();
+		var particlePoisitons = optimizer.getParticles();
 		particlePoisitons.forEach(function(particlePosition) {
 			drawLine(
 				(particlePosition[0] - domain[0].start) * rap, 0,
@@ -77,7 +67,7 @@ require(['pso'], function(pso) {
 		con2d.strokeStyle = '#1FA';
 		
 		con2d.beginPath();
-		var particlesPoisitonBest = pso.getParticlesBest();
+		var particlesPoisitonBest = optimizer.getParticlesBest();
 		particlesPoisitonBest.forEach(function(particlePositionBest) {
 			drawLine(
 				(particlePositionBest[0] - domain[0].start) * rap, 0,
@@ -93,7 +83,7 @@ require(['pso'], function(pso) {
 		con2d.strokeStyle = '#05F';
 		
 		con2d.beginPath();
-		var best = pso.getBestPosition();
+		var best = optimizer.getBestPosition();
 		drawLine(
 			(best - domain[0].start) * rap, 0,
 			(best - domain[0].start) * rap, canvas.height
@@ -124,7 +114,7 @@ require(['pso'], function(pso) {
 	function theGreatLoop() {
 		if(running) {
 			step();
-			document.getElementById('out_best').value = 'f(' + pso.getBestPosition() + ') = ' + pso.getBestFitness();
+			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
 			if (iteration < iterationNMax) {
 				timeoutId = setTimeout(theGreatLoop,delay);
@@ -156,7 +146,7 @@ require(['pso'], function(pso) {
 		stop();
 		
 		var index = document.getElementById("lst_func").selectedIndex;
-		pso.setObjectiveFunction(fundom[index].fun);
+		optimizer.setObjectiveFunction(fundom[index].fun);
 		domain = fundom[index].domain;
 		objectiveFunction = fundom[index].fun;
 		precomputeSamples();
@@ -172,7 +162,7 @@ require(['pso'], function(pso) {
 		var social = parseFloat(document.getElementById('inp_social').value);
 		var personal = parseFloat(document.getElementById('inp_personal').value);
 	
-		pso.setOptions({ 
+		optimizer.setOptions({
 	 		inertiaWeight: inertiaWeight,
 	 		social: social,
 	 		personal: personal

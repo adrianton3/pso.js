@@ -1,13 +1,13 @@
 (function() {
     'use strict';
 
-    var pso = new PSO();
+    var optimizer = new pso.Optimizer();
     var iterationNMax = 20;
     var initialPopulationSize;
     var circles = [];
     var searchSpaceSize = 500;
 
-    var domain = [new Interval(0, searchSpaceSize), new Interval(0, searchSpaceSize)];
+    var domain = [new pso.Interval(0, searchSpaceSize), new pso.Interval(0, searchSpaceSize)];
     var objectiveFunction = function (x) {
         var distToClosestCircle = circles.reduce(function (prev, circle) {
             var dist = Math.sqrt(Math.pow(circle.x - x[0], 2) + Math.pow(circle.y - x[1], 2));
@@ -41,14 +41,14 @@
     function best() {
         updateParameters();
 
-        pso.init(initialPopulationSize, domain);
+        optimizer.init(initialPopulationSize, domain);
 
         for (var i = 0; i < iterationNMax; i++) {
-            pso.step();
+            optimizer.step();
         }
 
-        var position = pso.getBestPosition();
-        var radius = pso.getBestFitness();
+        var position = optimizer.getBestPosition();
+        var radius = optimizer.getBestFitness();
 
         Draw.fillColor(getRandomColor());
         Draw.circle(position[0], position[1], radius);
@@ -104,7 +104,7 @@
         var social = parseFloat(document.getElementById('inp_social').value);
         var personal = parseFloat(document.getElementById('inp_personal').value);
 
-        pso.setOptions({
+        optimizer.setOptions({
             inertiaWeight: inertiaWeight,
             social: social,
             personal: personal
@@ -119,7 +119,7 @@
         document.getElementById('but_rand_max').addEventListener('click', randMax);
         document.getElementById('but_rand_rand').addEventListener('click', randRand);
 
-        pso.setObjectiveFunction(objectiveFunction);
+        optimizer.setObjectiveFunction(objectiveFunction);
 
         Draw.clearColor('#FFF');
         Draw.lineColor('#000');
