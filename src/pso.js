@@ -1,12 +1,12 @@
 /*
- pso.js 0.1 Copyright (c) 2013, Adrian Toncean
+ pso.js Copyright (c) 2014, Adrian Toncean
  Available via the MIT or new BSD license
 */
 (function () {
 	'use strict';
 	
 	function Particle(position, velocity, inertiaWeight, social, personal) {
-    this.position = position;
+    	this.position = position;
 		this.velocity = velocity;
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
@@ -71,7 +71,7 @@
 		this.end = end;
 	}
 	//=============================================================================
-	function PSO() {
+	function Optimizer() {
 		this.particles = null;
 		this.objectiveFunction = null;
 		
@@ -80,21 +80,33 @@
 		this.iteration = 0;
 		this.pressure = 0.5;
 	 
-		this.inertiaWeight = 0.8;
-		this.social = 0.4;
-		this.personal = 0.4;
+		this.options = {
+			inertiaWeight: 0.8,
+			social: 0.4,
+			personal: 0.4
+		};
+
+		this.async = false;
+		this._waiting = false;
 	}
-	
-	PSO.prototype = {
+
+	Optimizer.prototype = {
 		setOptions: function (options) {
-			this.options = options || {};
-			this.options.inertiaWeight = this.options.inertiaWeight !== undefined ? this.options.inertiaWeight : 0.8;
-			this.options.social = this.options.social !== undefined ? this.options.social : 0.4;
-			this.options.personal = this.options.personal !== undefined ? this.options.personal : 0.4;
+			options = options || {};
+			if (options.inertiaWeight !== undefined) {
+				this.options.inertiaWeight = options.inertiaWeight;
+			}
+			if (options.social !== undefined) {
+				this.options.social = options.social;
+			}
+			if (options.personal !== undefined) {
+				this.options.personal = options.personal;
+			}
 		},
 		
-		setObjectiveFunction: function (objectiveFunction) {
+		setObjectiveFunction: function (objectiveFunction, options) {
 			this.objectiveFunction = objectiveFunction;
+			this.async = options && options.async;
 		},
 		
 		init: function (nParticles, generationOption) {
@@ -127,11 +139,37 @@
 			
 			return ret;
 		},
-	
-		step: function () {
+
+		step: function (callback) {
+			if (this.async) {
+				if (this._waiting) {
+					console.warn('Cannot step again before previous requests have been completed!');
+					return;
+				}
+				this._waiting = true;
+				var completed = 0;
+				var optimizer = this;
+				this.particles.forEach(function (particle) {
+					optimizer.objectiveFunction(particle.position, function (fitness) {
+						particle.fitness = fitness;
+						completed++;
+						if (completed >= optimizer.particles.length) {
+							optimizer._waiting = false;
+							optimizer._completeStep();
+							callback();
+						}
+					});
+				});
+			} else {
+				this.particles.forEach(function (particle) {
+					particle.fitness = this.objectiveFunction(particle.position);
+				}.bind(this));
+				this._completeStep();
+			}
+		},
+
+		_completeStep: function () {
 			this.particles.forEach(function (particle) {
-				particle.fitness = this.objectiveFunction(particle.position);
-				
 				if (particle.fitness > particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
 					particle.storePosition();
@@ -187,20 +225,20 @@
 	};
 	//=============================================================================
 	if (typeof define === 'function' && define.amd) {
-		define(function () {
-			return {
-				Interval: Interval,
-				Particle: Particle,
-				PSO: PSO
-			};
-		});
+		define('pso/Interval', [], function () { return Interval; });
+		define('pso/Particle', [], function () { return Particle; });
+		define('pso/Optimizer', [], function () { return Optimizer; });
 	} else if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
-		self.Interval = Interval;
-		self.Particle = Particle;
-		self.PSO = PSO;
+		self.pso = {
+			Interval: Interval,
+			Particle: Particle,
+			Optimizer: Optimizer
+		};
 	} else {
-		window.Interval = Interval;
-		window.Particle = Particle;
-		window.PSO = PSO;
+		window.pso = {
+			Interval: Interval,
+			Particle: Particle,
+			Optimizer: Optimizer
+		};
 	}
 })();
