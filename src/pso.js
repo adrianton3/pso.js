@@ -1,12 +1,12 @@
 /*
- pso.js 0.1 Copyright (c) 2013, Adrian Toncean
+ pso.js Copyright (c) 2014, Adrian Toncean
  Available via the MIT or new BSD license
 */
 (function () {
 	'use strict';
 	
 	function Particle(position, velocity, inertiaWeight, social, personal) {
-    this.position = position;
+    	this.position = position;
 		this.velocity = velocity;
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
@@ -85,6 +85,9 @@
 			social: 0.4,
 			personal: 0.4
 		};
+
+		this.async = false;
+		this._waiting = false;
 	}
 
 	Optimizer.prototype = {
@@ -101,8 +104,9 @@
 			}
 		},
 		
-		setObjectiveFunction: function (objectiveFunction) {
+		setObjectiveFunction: function (objectiveFunction, options) {
 			this.objectiveFunction = objectiveFunction;
+			this.async = options && options.async;
 		},
 		
 		init: function (nParticles, generationOption) {
@@ -135,11 +139,37 @@
 			
 			return ret;
 		},
-	
-		step: function () {
+
+		step: function (callback) {
+			if (this.async) {
+				if (this._waiting) {
+					console.warn('Cannot step again before previous requests have been completed!');
+					return;
+				}
+				this._waiting = true;
+				var completed = 0;
+				var optimizer = this;
+				this.particles.forEach(function (particle) {
+					optimizer.objectiveFunction(particle.position, function (fitness) {
+						particle.fitness = fitness;
+						completed++;
+						if (completed >= optimizer.particles.length) {
+							optimizer._waiting = false;
+							optimizer._completeStep();
+							callback();
+						}
+					});
+				});
+			} else {
+				this.particles.forEach(function (particle) {
+					particle.fitness = this.objectiveFunction(particle.position);
+				}.bind(this));
+				this._completeStep();
+			}
+		},
+
+		_completeStep: function () {
 			this.particles.forEach(function (particle) {
-				particle.fitness = this.objectiveFunction(particle.position);
-				
 				if (particle.fitness > particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
 					particle.storePosition();

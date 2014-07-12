@@ -1,0 +1,15 @@
+body {
+    font-family: sans-serif;
+}
+
+.title, .small {
+    font-size: small;
+}
+
+a {
+    color: black;
+}
+
+.mono {
+    font-family: monospace;
+}
