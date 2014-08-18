@@ -2,7 +2,7 @@
 	'use strict';
 
 	var canvas, con2d;
-	var pso = new PSO();
+	var optimizer = new pso.Optimizer();
 	var iteration = 0, iterationNMax = 20;
 	var delay = 50;
 	var domain = null;
@@ -10,10 +10,10 @@
 	var samples = [];
 	
 	var fundom = [
-		{ fun: function(x) { return Math.cos(Math.PI * 2 * x[0]) * 5 - Math.pow(x[0], 2); }, domain: [new Interval(-5.12,5.12)] },
-		{ fun: function(x) { return -Math.cos(x[0])*Math.exp(-Math.pow(x - Math.PI, 2)); }, domain: [new Interval(-30,30)] },
-	  { fun: function(x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); }, domain: [new Interval(-10,10)] },
-	  { fun: function(x) { return -x[0]*x[0]; }, domain: [new Interval(-5,5)] }
+		{ fun: function(x) { return Math.cos(Math.PI * 2 * x[0]) * 5 - Math.pow(x[0], 2); }, domain: [new pso.Interval(-5.12,5.12)] },
+		{ fun: function(x) { return -Math.cos(x[0])*Math.exp(-Math.pow(x - Math.PI, 2)); }, domain: [new pso.Interval(-30,30)] },
+		{ fun: function(x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); }, domain: [new pso.Interval(-10,10)] },
+		{ fun: function(x) { return -x[0]*x[0]; }, domain: [new pso.Interval(-5,5)] }
 	];
 	
 	var initialPopulationSize;
@@ -29,11 +29,11 @@
 	}
 	
 	function init()	{
-		pso.init(initialPopulationSize, domain);
+		optimizer.init(initialPopulationSize, domain);
 	}
 	
 	function step()	{
-		pso.step();		
+		optimizer.step();
 		drawFunction();		
 		drawPopulationBest();
 		drawPopulation();
@@ -51,7 +51,7 @@
 		con2d.strokeStyle = '#F04';
 		
 		con2d.beginPath();
-		var particlePoisitons = pso.getParticles();
+		var particlePoisitons = optimizer.getParticles();
 		particlePoisitons.forEach(function(particlePosition) {
 			drawLine(
 				(particlePosition[0] - domain[0].start) * rap, 0,
@@ -67,7 +67,7 @@
 		con2d.strokeStyle = '#1FA';
 		
 		con2d.beginPath();
-		var particlesPoisitonBest = pso.getParticlesBest();
+		var particlesPoisitonBest = optimizer.getParticlesBest();
 		particlesPoisitonBest.forEach(function(particlePositionBest) {
 			drawLine(
 				(particlePositionBest[0] - domain[0].start) * rap, 0,
@@ -83,7 +83,7 @@
 		con2d.strokeStyle = '#05F';
 		
 		con2d.beginPath();
-		var best = pso.getBestPosition();
+		var best = optimizer.getBestPosition();
 		drawLine(
 			(best - domain[0].start) * rap, 0,
 			(best - domain[0].start) * rap, canvas.height
@@ -114,7 +114,7 @@
 	function theGreatLoop() {
 		if(running) {
 			step();
-			document.getElementById('out_best').value = 'f(' + pso.getBestPosition() + ') = ' + pso.getBestFitness();
+			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
 			if (iteration < iterationNMax) {
 				timeoutId = setTimeout(theGreatLoop,delay);
@@ -146,7 +146,7 @@
 		stop();
 		
 		var index = document.getElementById("lst_func").selectedIndex;
-		pso.setObjectiveFunction(fundom[index].fun);
+		optimizer.setObjectiveFunction(fundom[index].fun);
 		domain = fundom[index].domain;
 		objectiveFunction = fundom[index].fun;
 		precomputeSamples();
@@ -162,7 +162,7 @@
 		var social = parseFloat(document.getElementById('inp_social').value);
 		var personal = parseFloat(document.getElementById('inp_personal').value);
 	
-		pso.setOptions({ 
+		optimizer.setOptions({
 	 		inertiaWeight: inertiaWeight,
 	 		social: social,
 	 		personal: personal

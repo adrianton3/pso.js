@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var pso = new PSO();
+    var optimizer = new pso.Optimizer();
     var iterationNMax = 20;
     var initialPopulationSize;
 
@@ -63,10 +63,10 @@
 		var domain = [];
 		repeat(n, function () {
 			domain.push(
-				new Interval(0, 1),
-				new Interval(0, 1),
-				new Interval(0, Math.PI * 2),
-				new Interval(0.2, 1.4)
+				new pso.Interval(0, 1),
+				new pso.Interval(0, 1),
+				new pso.Interval(0, Math.PI * 2),
+				new pso.Interval(0.2, 1.4)
 			);
 		});
 		return domain;
@@ -165,7 +165,7 @@
 
 		updatePsoParameters();
 
-		pso.init(initialPopulationSize, domain);
+		optimizer.init(initialPopulationSize, domain);
 
 		var iteration = 1;
 		runningOn();
@@ -178,10 +178,10 @@
 				runningOff();
 			}
 
-			pso.step();
+			optimizer.step();
 
-			var position = pso.getBestPosition();
-			var coverage = pso.getBestFitness();
+			var position = optimizer.getBestPosition();
+			var coverage = optimizer.getBestFitness();
 
 			Draw.clear();
 			for (var i = 0; i < nShapes; i++) {
@@ -215,7 +215,7 @@
         var social = parseFloat(document.getElementById('inp_social').value);
         var personal = parseFloat(document.getElementById('inp_personal').value);
 
-        pso.setOptions({
+        optimizer.setOptions({
             inertiaWeight: inertiaWeight,
             social: social,
             personal: personal
@@ -239,7 +239,7 @@
         document.getElementById('but_reset').addEventListener('click', reset);
         document.getElementById('but_best').addEventListener('click', best);
 
-        pso.setObjectiveFunction(objectiveFunction);
+        optimizer.setObjectiveFunction(objectiveFunction);
 
         Draw.clearColor('#FFF');
         Draw.lineColor('#000');

@@ -56,18 +56,18 @@
 		
 		function setupParameters() {
 			parameterListing = [
-				{ key: 'cog1X', def: 400, interval: new Interval(350, 500) },
-				{ key: 'cog1Y', def: 400, interval: new Interval(350, 450) },
-				{ key: 'cog1R', def: 50, interval: new Interval(10, 90) },
+				{ key: 'cog1X', def: 400, interval: new pso.Interval(350, 500) },
+				{ key: 'cog1Y', def: 400, interval: new pso.Interval(350, 450) },
+				{ key: 'cog1R', def: 50, interval: new pso.Interval(10, 90) },
 				
-				{ key: 'cog2X', def: 200, interval: new Interval(50, 250) },
-				{ key: 'cog2Y', def: 400, interval: new Interval(350, 450) },
-				{ key: 'cog2R', def: 50, interval: new Interval(10, 90) },
-				{ key: 'cog2AngleOffset', def: 0, interval: new Interval(0, Math.PI * 2) },
+				{ key: 'cog2X', def: 200, interval: new pso.Interval(50, 250) },
+				{ key: 'cog2Y', def: 400, interval: new pso.Interval(350, 450) },
+				{ key: 'cog2R', def: 50, interval: new pso.Interval(10, 90) },
+				{ key: 'cog2AngleOffset', def: 0, interval: new pso.Interval(0, Math.PI * 2) },
 				
-				{ key: 'rod1Len', def: 120, interval: new Interval(80, 200) },
-				{ key: 'rod2Len', def: 120, interval: new Interval(80, 200) },
-				{ key: 'rod1Ext', def: 120, interval: new Interval(80, 200) }
+				{ key: 'rod1Len', def: 120, interval: new pso.Interval(80, 200) },
+				{ key: 'rod2Len', def: 120, interval: new pso.Interval(80, 200) },
+				{ key: 'rod1Ext', def: 120, interval: new pso.Interval(80, 200) }
 			];
 			
 			parameters = getDefaults(parameterListing);

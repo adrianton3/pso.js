@@ -6,8 +6,6 @@
 			var cx = ev.layerX;
 			var cy = ev.layerY;
 
-			console.log(cx, cy);
-
 			var x = (Math.floor(cx / zoom.x) / space.resolutionX) *
 				(space.domainX.end - space.domainX.start) + space.domainX.start;
 			var y = (Math.floor(cy / zoom.y) / space.resolutionY) *

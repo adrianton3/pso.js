@@ -93,20 +93,20 @@ onmessage = function(ev) {
 	}
 
 	function runPSO(domain, objectiveFunction, nStep, initialPopulationSize) {
-    var pso = new PSO();
-    pso.setOptions({
+    var optimizer = new pso.Optimizer();
+    optimizer.setOptions({
 	 		inertiaWeight: 0.8,
 	 		social: 0.6,
 	 		personal: 0.4
 		});
-    pso.init(initialPopulationSize, domain);
-    pso.setObjectiveFunction(objectiveFunction);
+    optimizer.init(initialPopulationSize, domain);
+    optimizer.setObjectiveFunction(objectiveFunction);
 
     for (var i = 0; i < nStep; i++) {
-        pso.step();
+        optimizer.step();
     }
 
-    return { bestPosition: pso.getBestPosition(), bestFitness: pso.getBestFitness() };
+    return { bestPosition: optimizer.getBestPosition(), bestFitness: optimizer.getBestFitness() };
 	}
 };
 
