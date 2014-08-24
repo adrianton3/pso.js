@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Parameters - pso.js demo</title>
+    <link href="parameters.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body ng-app="app">
+
+<a href="https://github.com/madflame991/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+
+    <p class="description"><a href="https://github.com/madflame991/pso.js">pso.js</a> + <a href="https://github.com/nnnick/Chart.js">chart.js</a></br>
+    In this example the optimizer is run 500 times with different parameter configurations.<br>
+    The average of the best solution found is plotted in black and the average of the whole population in blue.<br>
+    The objective function is Rastrigin and the search space is bidimensional.</p>
+
+    <div ng-controller="AppController as appController">
+        <canvas id="chart" width="600" height="256"></canvas>
+        <div><span class="status">Status:</span> {{appController.busy ? 'busy' : 'idle'}}</div>
+
+        <div><p class="menu">Choose what parameter to vary:</p>
+            <input type="radio" name="group1" ng-model="appController.varying" value="iterations">
+            Number of iterations (between 4 and 64)<br>
+
+            <input type="radio" name="group1" ng-model="appController.varying" value="initialPopulationSize">
+            Initial population size (between 4 and 64)<br>
+
+            <input type="radio" name="group1" ng-model="appController.varying" value="inertiaWeight">
+            Inertia weight (between 0 and 1)<br>
+
+            <input type="radio" name="group1" ng-model="appController.varying" value="social">
+            Social influence (between 0 and 1)<br>
+
+            <input type="radio" name="group1" ng-model="appController.varying" value="personal">
+            Personal influence (between 0 and 1)
+        </div>
+
+    <button ng-click="appController.run()" ng-disabled="appController.busy">Run</button>
+    </div>
+
+    <script src="../lib/angular.min.js"></script>
+    <script src="../lib/Chart.min.js"></script>
+    <script src="../lib/async.js"></script>
+    <script src="WorkerPool.js"></script>
+    <script src="parameters.js"></script>
+</body>
+</html>
