@@ -14,6 +14,7 @@ Pso.js is launched in this case by web workers
 + [shape-fitting](http://madflame991.github.io/pso.js/examples/shape-fitting/shape-fitting.html) Optimizes the positioning of arbitrary shapes in a square
 + [pool](http://madflame991.github.io/pso.js/examples/pool/pool.html) Optimizes the breaking shot of a pool game
 + [async](http://madflame991.github.io/pso.js/examples/async/async.html) Example of an asynchronous objective function
++ [parameters](http://madflame991.github.io/pso.js/examples/parameters/parameters.html) Optimizer performance when varying its parameters
 
 Usage
 -----
