@@ -18,6 +18,8 @@
 	
 	var userPointSet = [];
 	var mechanismPointSet = [];
+
+	var defaultNWorkers = 4;
 	
 	window.addEventListener('load', setup);
 
@@ -190,7 +192,7 @@
 		Draw.clear();
 		drawUserPointSet();
 		
-		var nWorkers = 2;
+		var nWorkers = navigator.hardwareConcurrency || defaultNWorkers;
 		for (var i = 0; i < nWorkers; i++) {
 			var worker = new Worker('worker.js');
 			worker.postMessage({ userPointSet: userPointSet, parameterListing: parameterListing, id: i });
