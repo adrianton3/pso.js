@@ -64,7 +64,7 @@
 			rod2X: rod2X,
 			rod2Y: rod2Y,
 			rodIntersectionX: rodIntersection.x,
-			rodIntersectionY: rodIntersection.y,
+			rodIntersectionY: rodIntersection.y
 		};
 	};
 	
@@ -72,14 +72,29 @@
 		var coords = this.getAt(time);
 		
 		Draw.fillColor('#000');
-		Draw.lineColor('#F90');
-		Draw.circle(this.props.cog1X, this.props.cog1Y, this.props.cog1R);
-		Draw.circle(this.props.cog2X, this.props.cog2Y, this.props.cog2R);
-		
-		Draw.lineColor('#9F0');
+		Draw.lineColor('#690');
+		Draw.cog(this.props.cog1X, this.props.cog1Y, this.props.cog1R + 24, time);
+		Draw.cog(this.props.cog2X, this.props.cog2Y, this.props.cog2R + 24, time);
+
+		Draw.fillColor('#013');
+		Draw.lineColor('#AD0');
 		Draw.lineWidth(2);
+		Draw.circle(this.props.cog1X, this.props.cog1Y, 4);
+		Draw.circle(this.props.cog2X, this.props.cog2Y, 4);
+		
+		Draw.lineColor('#AD0');
+		Draw.lineWidth(6);
 		Draw.line(coords.rod1X, coords.rod1Y, coords.x, coords.y);
 		Draw.line(coords.rod2X, coords.rod2Y, coords.rodIntersectionX, coords.rodIntersectionY);
+
+		Draw.lineWidth(2);
+		Draw.circle(coords.rod1X, coords.rod1Y, 8);
+		Draw.circle(coords.rod2X, coords.rod2Y, 8);
+		Draw.circle(coords.rodIntersectionX, coords.rodIntersectionY, 8);
+
+		Draw.fillColor('#E06');
+		Draw.lineWidth(2);
+		Draw.circle(coords.x, coords.y, 4);
 	};
 	
 	Mechanism.prototype.getPointSet = function(resolution) {

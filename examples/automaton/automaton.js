@@ -172,7 +172,7 @@
 //=============================================================================
 	function drawUserPointSet() {
 		Draw.lineWidth(3);
-		Draw.lineColor('#E80');
+		Draw.lineColor('#F28');
 		Draw.path(userPointSet);
 	}
 	
