@@ -2,6 +2,7 @@
 	'use strict';
 
 	var canvas, con2d;
+	var clearStyle;
 
 	var Draw = {
 		init: function (element) {
@@ -10,7 +11,10 @@
 		},
 
 		clear: function () {
-			con2d.clearRect(0, 0, canvas.width, canvas.height);
+			var fillStyle = con2d.fillStyle;
+			con2d.fillStyle = clearStyle;
+			con2d.fillRect(0, 0, canvas.width, canvas.height);
+			con2d.fillStyle = fillStyle;
 		},
 
 		circle: function (x, y, r) {
@@ -77,7 +81,7 @@
 		},
 
         clearColor: function (color) {
-            con2d.clearStyle = color;
+            clearStyle = color;
         },
 
 		fillColor: function (color) {

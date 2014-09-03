@@ -49,7 +49,7 @@
 		function setupCanvas() {
 			var canvas = document.getElementById('canvaspso');
 			Draw.init(canvas);
-            Draw.clearColor('#F00');
+            Draw.clearColor('#234');
 	
 			canvas.addEventListener('mousemove', onMouseMove, false);
 			canvas.addEventListener('mousedown', onMouseDown, false);
@@ -88,7 +88,9 @@
 					drawUserPointSet();
 					mechanismPointSet = mechanism.getPointSet(100);
 					drawMechanismPointSet();
-					if (!animationState.running) mechanism.drawAt(0);
+					if (!animationState.running) {
+						mechanism.drawAt(0);
+					}
 				});
 			});
 			
@@ -243,7 +245,7 @@
 	}
 
 	function paint(coord) {
-		if(mouseState.down) {
+		if (mouseState.down) {
 			userPointSet.push(new Point(coord.x, coord.y));
 			Draw.clear();
 			drawUserPointSet();
