@@ -15,6 +15,7 @@ Pso.js is launched in this case by web workers
 + [pool](http://madflame991.github.io/pso.js/examples/pool/pool.html) Optimizes the breaking shot of a pool game
 + [async](http://madflame991.github.io/pso.js/examples/async/async.html) Example of an asynchronous objective function
 + [parameters](http://madflame991.github.io/pso.js/examples/parameters/parameters.html) Optimizer performance when varying its parameters
++ [meta-optimizer](http://madflame991.github.io/pso.js/examples/meta/meta.html) pso.js is used to optimize the parameters of another instance of pso which is optimizing the Rastrigin function
 
 Usage
 -----
