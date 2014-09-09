@@ -1,0 +1,60 @@
+body {
+    margin-left: 25px;
+    font-family: sans-serif;
+    font-size: small;
+}
+
+.description a {
+    font-weight: bold;
+}
+
+.chart {
+    float: left;
+    margin-right: 20px;
+}
+
+.chart p {
+    margin: 3px 0 0 0;
+}
+
+.legend {
+    width: 12px;
+    height: 12px;
+    display: inherit;
+    float: left;
+    margin-right: 4px;
+}
+
+.dark {
+    background-color:  rgb(120,120,120);
+}
+
+.blue {
+    background-color:  rgb(151,187,205);
+}
+
+.pink {
+    background-color:  rgb(251,87,205);
+}
+
+canvas {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid grey;
+    padding: 10px;
+}
+
+.status {
+    clear: both;
+    padding-top: 32px;
+}
+
+.menu {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+button {
+    margin-top: 10px;
+    width: 100px;
+}
