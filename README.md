@@ -20,6 +20,8 @@ Pso.js is launched in this case by web workers
 Usage
 -----
 
+#### Basic usage case
+
 ```javascript
 // create the optimizer
 var optimizer = new pso.Optimizer();
@@ -38,3 +40,19 @@ for (var i = 0; i < 40; i++) {
 // print the best found fitness value and position in the search space
 console.log(optimizer.getBestFitness(), optimizer.getBestPosition());
 ```
+
+####Optimizer parameters
+
+Optimizer parameters can be set by calling the `setOptions` method before creating a population with the `init` method. Otherwise, the default parameters will be used.
+The `setOptions` method takes a single map-like object - here are its default values:
+
+```javascript
+	{
+		inertiaWeight: 0.8,
+		social: 0.4,
+		personal: 0.4
+	}
+```
+ 
+The `social` parameter dictates how much a particle should be influenced by the best performing particle in the swarm.
+The `personal` parameter dictates how much a particle should be influenced by the best position it has been in.
