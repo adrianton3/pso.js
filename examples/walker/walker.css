@@ -1,0 +1,16 @@
+body {
+    font-family: sans-serif;
+    font-size: small;
+}
+
+canvas {
+    border: 1px solid black;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.desc {
+    max-width: 800px;
+}
