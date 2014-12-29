@@ -7,7 +7,7 @@ Sample applications
 -------------------
 
 + [simple](http://madflame991.github.io/pso.js/examples/simple/simple.html) A simple application that optimizes a one dimensional function
-+ [simple_require](http://madflame991.github.io/pso.js/examples/simple_require/simple_require.html) The same as simple, except using require.js
++ [simple-require](http://madflame991.github.io/pso.js/examples/simple_require/simple_require.html) The same as simple, except using require.js
 + [automaton](http://madflame991.github.io/pso.js/examples/automaton/automaton.html) A more sophisticated application that adapts a mechanism for a specified output path.
 Pso.js is launched in this case by web workers
 + [circles](http://madflame991.github.io/pso.js/examples/circles/circles.html) A simple application that optimizes a two dimensional function
@@ -16,6 +16,7 @@ Pso.js is launched in this case by web workers
 + [async](http://madflame991.github.io/pso.js/examples/async/async.html) Example of an asynchronous objective function
 + [parameters](http://madflame991.github.io/pso.js/examples/parameters/parameters.html) Optimizer performance when varying its parameters
 + [meta-optimizer](http://madflame991.github.io/pso.js/examples/meta/meta.html) pso.js is used to optimize the parameters of another instance of pso which is optimizing the Rastrigin function
++ [walking-critter](http://madflame991.github.io/pso.js/examples/walker/walker.html) Optimizing a "walking" critter - another example of asynchronous objective functions
 
 Usage
 -----
