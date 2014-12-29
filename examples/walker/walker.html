@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="walker.css">
+    <title>pso.js + p2.js: walker</title>
+</head>
+<body>
+    <div class="title">
+        <a href="https://github.com/madflame991/pso.js">pso.js</a> +
+        <a href="https://github.com/schteppe/p2.js">p2.js</a>
+    </div>
+    <div class="desc">
+        In this example pso.js will be used to optimize a walking critter.<br>
+        The parameters for this simulation are motor speeds and body length.<br>
+        The physics simulations are handled by the physics library p2.js
+    </div>
+    <br>
+    <canvas id="can" width="768" height="256"></canvas>
+
+    <div id="status-container">Status: <span id="status">idle</span></div>
+    <button id="best">Search</button>
+
+    <script type="text/javascript" src="../../src/pso.js"></script>
+    <script src="../lib/p2.min.js"></script>
+
+    <script src="draw-a.js"></script>
+    <script src="throttler.js"></script>
+    <script src="simulation.js"></script>
+    <script src="pool.js"></script>
+    <script src="walker.js"></script>
+</body>
+</html>
