@@ -16,28 +16,24 @@
 	}
 	
 	Particle.prototype = {
+		// Stores the current position as its best so far.
 		storePosition: function () {
-			for (var i = 0; i < this.position.length; i++) {
-				this.bestPosition[i] = this.position[i];
-			}
+			this.bestPosition = this.position.slice(0);
 		},
-	
+
+		// Retrieves the particle's current position.
 		getPosition: function () {
-			var ret = [];
-			for (var i = 0; i < this.position.length; i++) {
-				ret.push(this.position[i]);
-			}
-			return ret;
+			return this.position.slice(0);
 		},
-		
+
+		// Retrieves the particle's best saved position.
 		getBestPosition: function () {
-			var ret = [];
-			for (var i = 0; i < this.position.length; i++) {
-				ret.push(this.bestPosition[i]);
-			}
-			return ret;
+			return this.bestPosition.slice(0);
 		},
-	
+
+		// Updates the particle's velocity vector based on inertia,
+		// the best-performing particle in the swarm and
+		// the best position the current particle has saved.
 		updateVelocity: function (globalBest) {
 			for (var i = 0; i < this.position.length; i++) {
 				this.velocity[i] = this.velocity[i] * this.inertiaWeight + 
@@ -45,7 +41,8 @@
 					(this.bestPosition[i] - this.position[i]) * Math.random() * this.personal;
 			}
 		},
-	
+
+		// Applies the velocity
 		updatePosition: function () {
 			for (var i = 0; i < this.position.length; i++) {
 				this.position[i] += this.velocity[i];
