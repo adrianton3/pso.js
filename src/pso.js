@@ -2,6 +2,7 @@
 (function () {
 	'use strict';
 
+	// Defines a candidate solution
 	function Particle(position, velocity, inertiaWeight, social, personal) {
 		this.position = position;
 		this.velocity = velocity;
@@ -62,12 +63,15 @@
 		}
 		return new Particle(position, velocity, options.inertiaWeight, options.social, options.personal);
 	};
-	//=============================================================================
+	// ------------------------------------------------------------------------
+	// Used to define domains.
+	// An *Interval* is anything with a *start* and an *end*.
 	function Interval(start, end) {
 		this.start = start;
 		this.end = end;
 	}
-	//=============================================================================
+	// ------------------------------------------------------------------------
+	// Holds particles and carries out the optimization task.
 	function Optimizer() {
 		this.particles = null;
 		this.objectiveFunction = null;
@@ -220,7 +224,7 @@
 			return sum / this.particles.length;
 		}
 	};
-	//=============================================================================
+	// ------------------------------------------------------------------------
 	if (typeof define === 'function' && define.amd) {
 		define('pso/Interval', [], function () { return Interval; });
 		define('pso/Particle', [], function () { return Particle; });
