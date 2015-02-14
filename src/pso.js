@@ -1,12 +1,10 @@
-/*
- pso.js Copyright (c) 2014, Adrian Toncean
- Available via the MIT or new BSD license
-*/
+//     Copyright 2015 Adrian Toncean; released under the MIT license
 (function () {
 	'use strict';
-	
+
+	// Defines a candidate solution
 	function Particle(position, velocity, inertiaWeight, social, personal) {
-    	this.position = position;
+		this.position = position;
 		this.velocity = velocity;
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
@@ -65,12 +63,15 @@
 		}
 		return new Particle(position, velocity, options.inertiaWeight, options.social, options.personal);
 	};
-	//=============================================================================
+	// ------------------------------------------------------------------------
+	// Used to define domains.
+	// An *Interval* is anything with a *start* and an *end*.
 	function Interval(start, end) {
 		this.start = start;
 		this.end = end;
 	}
-	//=============================================================================
+	// ------------------------------------------------------------------------
+	// Holds particles and carries out the optimization task.
 	function Optimizer() {
 		this.particles = null;
 		this.objectiveFunction = null;
@@ -127,7 +128,7 @@
 		},
 	
 		getRandomBest: function (except) {
-			var ret = (Math.random() * this.particles.length) | 0;
+			var ret = Math.floor(Math.random() * this.particles.length);
 			
 			this.particles.forEach(function (particle, index) {
 				if (Math.random() < this.pressure &&
@@ -218,12 +219,12 @@
 		getMeanFitness: function () {
 			var sum = 0;
 			this.particles.forEach(function (particle) {
-		  	sum += particle.fitness;
+				sum += particle.fitness;
 			});
-		  return sum / this.particles.length;
+			return sum / this.particles.length;
 		}
 	};
-	//=============================================================================
+	// ------------------------------------------------------------------------
 	if (typeof define === 'function' && define.amd) {
 		define('pso/Interval', [], function () { return Interval; });
 		define('pso/Particle', [], function () { return Particle; });
