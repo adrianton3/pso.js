@@ -1,7 +1,4 @@
-/*
- pso.js Copyright (c) 2014, Adrian Toncean
- Available via the MIT or new BSD license
-*/
+//     Copyright 2015 Adrian Toncean; released under the MIT license
 (function () {
 	'use strict';
 
@@ -220,7 +217,7 @@
 			this.particles.forEach(function (particle) {
 				sum += particle.fitness;
 			});
-		  return sum / this.particles.length;
+			return sum / this.particles.length;
 		}
 	};
 	//=============================================================================
