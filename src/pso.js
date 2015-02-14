@@ -4,9 +4,9 @@
 */
 (function () {
 	'use strict';
-	
+
 	function Particle(position, velocity, inertiaWeight, social, personal) {
-    	this.position = position;
+		this.position = position;
 		this.velocity = velocity;
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
@@ -127,7 +127,7 @@
 		},
 	
 		getRandomBest: function (except) {
-			var ret = (Math.random() * this.particles.length) | 0;
+			var ret = Math.floor(Math.random() * this.particles.length);
 			
 			this.particles.forEach(function (particle, index) {
 				if (Math.random() < this.pressure &&
@@ -218,7 +218,7 @@
 		getMeanFitness: function () {
 			var sum = 0;
 			this.particles.forEach(function (particle) {
-		  	sum += particle.fitness;
+				sum += particle.fitness;
 			});
 		  return sum / this.particles.length;
 		}
