@@ -222,21 +222,27 @@
 		}
 	};
 	// ------------------------------------------------------------------------
+	// *pso.js* works
 	if (typeof define === 'function' && define.amd) {
-		define('pso/Interval', [], function () { return Interval; });
-		define('pso/Particle', [], function () { return Particle; });
-		define('pso/Optimizer', [], function () { return Optimizer; });
-	} else if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
-		self.pso = {
-			Interval: Interval,
-			Particle: Particle,
-			Optimizer: Optimizer
-		};
+		// + with *RequireJS*
+		define('pso/Interval', function () { return Interval; });
+		define('pso/Particle', function () { return Particle; });
+		define('pso/Optimizer', function () { return Optimizer; });
 	} else {
-		window.pso = {
+		var pso = {
 			Interval: Interval,
 			Particle: Particle,
 			Optimizer: Optimizer
 		};
+		if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+			// + from a *WebWorker*
+			self.pso = pso;
+		} else if (typeof module !== 'undefined' && module.exports) {
+			// + in *node*
+			module.exports = pso;
+		} else {
+			// + or in a plain browser environment
+			window.pso = pso;
+		}
 	}
 })();

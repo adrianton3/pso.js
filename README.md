@@ -1,15 +1,15 @@
 pso.js
 ======
 
-Particle Swarm Optimisation library written in JS. Works with/without require.js or from a worker.
+Particle Swarm Optimisation library written in JS. Works with/without *RequireJS*, from a *WebWorker*, in *node* or in a plain browser environment.
 
 Sample applications
 -------------------
 
 + [simple](http://adrianton3.github.io/pso.js/examples/simple/simple.html) A simple application that optimizes a one dimensional function
-+ [simple-require](http://adrianton3.github.io/pso.js/examples/simple_require/simple_require.html) The same as simple, except using require.js
++ [simple-require](http://adrianton3.github.io/pso.js/examples/simple_require/simple_require.html) The same as *simple*, except using RequireJS
 + [automaton](http://adrianton3.github.io/pso.js/examples/automaton/automaton.html) A more sophisticated application that adapts a mechanism for a specified output path.
-Pso.js is launched in this case by web workers
+pso.js is launched in this case by web workers
 + [circles](http://adrianton3.github.io/pso.js/examples/circles/circles.html) A simple application that optimizes a two dimensional function
 + [shape-fitting](http://adrianton3.github.io/pso.js/examples/shape-fitting/shape-fitting.html) Optimizes the positioning of arbitrary shapes in a square
 + [pool](http://adrianton3.github.io/pso.js/examples/pool/pool.html) Optimizes the breaking shot of a pool game
