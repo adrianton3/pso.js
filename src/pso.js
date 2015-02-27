@@ -3,16 +3,16 @@
 	'use strict';
 
 	// Defines a candidate solution
-	function Particle(position, velocity, inertiaWeight, social, personal) {
+	function Particle(position, velocity, options) {
 		this.position = position;
 		this.velocity = velocity;
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
 		this.bestFitness = -Infinity;
 	 
-		this.inertiaWeight = inertiaWeight;
-		this.social = social;
-		this.personal = personal;
+		this.inertiaWeight = options.inertiaWeight;
+		this.social = options.social;
+		this.personal = options.personal;
 	}
 	
 	Particle.prototype = {
@@ -34,31 +34,34 @@
 		// Updates the particle's velocity vector based on inertia,
 		// the best-performing particle in the swarm and
 		// the best position the current particle has saved.
-		updateVelocity: function (globalBest) {
-			for (var i = 0; i < this.position.length; i++) {
-				this.velocity[i] = this.velocity[i] * this.inertiaWeight + 
-					(globalBest.position[i] - this.position[i]) * Math.random() * this.social + 
-					(this.bestPosition[i] - this.position[i]) * Math.random() * this.personal;
-			}
+		updateVelocity: function (globalBest, random) {
+			this.position.forEach(function (component, index) {
+				var inertia = this.velocity[index] * this.inertiaWeight;
+				var socialInfluence = (globalBest.position[index] - component) * random() * this.social;
+				var personalInfluence = (this.bestPosition[index] - component) * random() * this.personal;
+
+				this.velocity[index] = inertia + socialInfluence + personalInfluence;
+			}.bind(this));
 		},
 
 		// Applies the velocity
 		updatePosition: function () {
-			for (var i = 0; i < this.position.length; i++) {
-				this.position[i] += this.velocity[i];
-			}
+			this.velocity.forEach(function (component, index) {
+				this.position[index] += component;
+			}.bind(this));
 		}
 	};
 	
-	Particle.createRandom = function (domain, options, velocityMultiplier) {
-		velocityMultiplier = typeof velocityMultiplier === 'undefined' ? 0.1 : velocityMultiplier;
-		var position = [];
-		var velocity = [];
-		for (var i = 0; i < domain.length; i++) {
-			position.push(Math.random() * (domain[i].end - domain[i].start) + domain[i].start);
-			velocity.push((Math.random() * 2 - 1) * velocityMultiplier);
-		}
-		return new Particle(position, velocity, options.inertiaWeight, options.social, options.personal);
+	Particle.createRandom = function (domain, options, random) {
+		var position = domain.map(function (interval) {
+			return random() * (interval.end - interval.start) + interval.start;
+		});
+		
+		var velocity = domain.map(function (interval) {
+			return (random() * (interval.end - interval.start)) * 0.05;
+		});
+
+		return new Particle(position, velocity, options);
 	};
 	// ------------------------------------------------------------------------
 	// Used to define domains.
@@ -75,17 +78,21 @@
 		
 		this.bestPositionEver = null;
 		this.bestFitnessEver = -Infinity;
-		this.iteration = 0;
-		this.pressure = 0.5;
-	 
+
 		this.options = {
 			inertiaWeight: 0.8,
 			social: 0.4,
-			personal: 0.4
+			personal: 0.4,
+			pressure: 0.5
 		};
 
 		this.async = false;
 		this._waiting = false;
+
+		this.rng = {
+			random: Math.random,
+			setSeed: function () {}
+		};
 	}
 
 	Optimizer.prototype = {
@@ -100,21 +107,25 @@
 			if (options.personal !== undefined) {
 				this.options.personal = options.personal;
 			}
+			if (options.pressure !== undefined) {
+				this.options.pressure = options.pressure;
+			}
 		},
 		
 		setObjectiveFunction: function (objectiveFunction, options) {
 			this.objectiveFunction = objectiveFunction;
 			this.async = options && options.async;
 		},
-		
+
+		// To be called before any simulation
+		// Creates the swarm and resets any previous recoded best solutions
 		init: function (nParticles, generationOption) {
 			var generator = generationOption instanceof Function ?
-				function () { return generationOption(); } :
+				generationOption :
 				function () {
-					return Particle.createRandom(generationOption, this.options);
+					return Particle.createRandom(generationOption, this.options, this.rng.random);
 				}.bind(this);
-			
-			this.iteration = 0;
+
 			this.bestPositionEver = null;
 			this.bestFitnessEver = -Infinity;
 			
@@ -123,14 +134,16 @@
 				this.particles.push(generator());
 			}
 		},
-	
-		getRandomBest: function (except) {
-			var ret = Math.floor(Math.random() * this.particles.length);
+
+		// Retrieve the fittest particle from a subset of the entire swarm
+		_getRandomBest: function (except) {
+			var ret = Math.floor(this.rng.random() * this.particles.length);
 			
 			this.particles.forEach(function (particle, index) {
-				if (Math.random() < this.pressure &&
+				if (this.rng.random() < this.options.pressure &&
 					this.particles[index].fitness > this.particles[ret].fitness && 
-					index !== except) {
+					index !== except
+				) {
 					ret = index;
 				}
 			}.bind(this));
@@ -138,6 +151,7 @@
 			return ret;
 		},
 
+		// Iterate once
 		step: function (callback) {
 			if (this.async) {
 				if (this._waiting) {
@@ -167,6 +181,7 @@
 		},
 
 		_completeStep: function () {
+			// Record the best found solutions
 			this.particles.forEach(function (particle) {
 				if (particle.fitness > particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
@@ -179,45 +194,47 @@
 				}
 			}.bind(this));
 		 
-			// update velocities
+			// Update velocities
 			this.particles.forEach(function (particle, index) {
-				var randomBest = this.particles[this.getRandomBest(index)];
-				particle.updateVelocity(randomBest);
+				var randomBest = this.particles[this._getRandomBest(index)];
+				particle.updateVelocity(randomBest, this.rng.random);
 			}.bind(this));
 		    
-			// update positions
+			// Update positions
 			this.particles.forEach(function (particle) {
 				particle.updatePosition();
 			});
-			
-			this.iteration++;
 		},
-	
+
+		// Retrieves an array of all solutions in the swarm
 		getParticles: function () {
 			return this.particles.map(function (particle) {
 				return particle.getPosition();
 			});
 		},
-		
+
+		// Retrieves an array of the best solutions encountered by every particle
 		getParticlesBest: function () {
 			return this.particles.map(function (particle) {
 				return particle.getBestPosition();
 			});
 		},
-	
+
+		// Retrieves the best solution ever recorded
 		getBestPosition: function () {
 			return this.bestPositionEver;
 		},
-	
+
+		// Retrieves the best fitness ever recorded
 		getBestFitness: function () {
 			return this.bestFitnessEver;
 		},
-	
+
+		// Retrieves the mean fitness of the entire swarm
 		getMeanFitness: function () {
-			var sum = 0;
-			this.particles.forEach(function (particle) {
-				sum += particle.fitness;
-			});
+			var sum = this.particles.reduce(function (partialSum, particle) {
+				return partialSum + particle.fitness;
+			}, 0);
 			return sum / this.particles.length;
 		}
 	};
