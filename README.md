@@ -1,7 +1,7 @@
 pso.js
 ======
 
-Particle Swarm Optimisation library written in JS. Works with/without *RequireJS*, from a *WebWorker*, in *node* or in a plain browser environment.
+Particle Swarm Optimisation library written in JS. Works with *RequireJS*, from a *WebWorker*, in *node.js* or in a plain browser environment.
 
 Sample applications
 -------------------
@@ -35,7 +35,7 @@ optimizer.init(20, [{ start: -10, end: 10 }, { start: -10, end: 10 }]);
 
 // run the optimizer 40 iterations
 for (var i = 0; i < 40; i++) {
-  optimizer.step();
+    optimizer.step();
 }
 
 // print the best found fitness value and position in the search space
@@ -57,3 +57,5 @@ The `setOptions` method takes a single map-like object - here are its default va
  
 The `social` parameter dictates how much a particle should be influenced by the best performing particle in the swarm.
 The `personal` parameter dictates how much a particle should be influenced by the best position it has been in.
+
+For more details consult the [annotated source](http://adrianton3.github.io/pso.js/docs/pso.html).
