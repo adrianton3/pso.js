@@ -6,7 +6,8 @@ module.exports = function (grunt) {
 			dev: {
 				src: ['src/pso.js'],
 				options: {
-					output: 'docs/'
+					output: 'docs/',
+					css: 'tools/docco-small-tab.css'
 				}
 			}
 		},
