@@ -221,14 +221,12 @@
 		// Retrieves an array of all solutions in the swarm
 		getParticles: function () {
 			return this._particles.map(function (particle) {
-				return particle.getPosition();
-			});
-		},
-
-		// Retrieves an array of the best solutions encountered by every particle
-		getParticlesBest: function () {
-			return this._particles.map(function (particle) {
-				return particle.getBestPosition();
+				return {
+					position: particle.getPosition(),
+					fitness: particle.fitness,
+					bestPosition: particle.getBestPosition(),
+					bestFitness: particle.bestFitness
+				};
 			});
 		},
 

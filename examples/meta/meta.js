@@ -140,7 +140,8 @@
 		this.busy = false;
 
 		// let one thread to update the UI
-		var nWorkers = navigator.hardwareConcurrency ? Math.max(1, navigator.hardwareConcurrency - 1) :
+		var nWorkers = navigator.hardwareConcurrency ?
+			Math.max(1, navigator.hardwareConcurrency - 1) :
 			defaultNWorkers;
 
 		var workerPool = new meta.WorkerPool(nWorkers);

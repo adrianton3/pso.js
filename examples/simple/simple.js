@@ -35,7 +35,6 @@
 	function step()	{
 		optimizer.step();
 		drawFunction();		
-		drawPopulationBest();
 		drawPopulation();
 		drawBest();
 	}
@@ -46,32 +45,29 @@
 	}
 	
 	function drawPopulation() {
+		var particles = optimizer.getParticles();
+
 		var rap = canvas.width / (domain[0].end - domain[0].start);
-		con2d.lineWidth = 1;		
+		con2d.lineWidth = 1;
 		con2d.strokeStyle = '#F04';
 		
 		con2d.beginPath();
-		var particlePoisitons = optimizer.getParticles();
-		particlePoisitons.forEach(function(particlePosition) {
+		particles.forEach(function(particle) {
 			drawLine(
-				(particlePosition[0] - domain[0].start) * rap, 0,
-				(particlePosition[0] - domain[0].start) * rap, canvas.height
+				(particle.position[0] - domain[0].start) * rap, 0,
+				(particle.position[0] - domain[0].start) * rap, canvas.height
 			);
 		});
 		con2d.stroke();
-	}
-	
-	function drawPopulationBest() {
-		var rap = canvas.width / (domain[0].end - domain[0].start);
-		con2d.lineWidth = 1.2;		
+
+		con2d.lineWidth = 1.2;
 		con2d.strokeStyle = '#1FA';
-		
+
 		con2d.beginPath();
-		var particlesPoisitonBest = optimizer.getParticlesBest();
-		particlesPoisitonBest.forEach(function(particlePositionBest) {
+		particles.forEach(function(particle) {
 			drawLine(
-				(particlePositionBest[0] - domain[0].start) * rap, 0,
-				(particlePositionBest[0] - domain[0].start) * rap, canvas.height
+				(particle.bestPosition[0] - domain[0].start) * rap, 0,
+				(particle.bestPosition[0] - domain[0].start) * rap, canvas.height
 			);
 		});
 		con2d.stroke();
@@ -112,7 +108,7 @@
 	}
 	
 	function theGreatLoop() {
-		if(running) {
+		if (running) {
 			step();
 			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
@@ -125,7 +121,7 @@
 	}
 	
 	function start() {
-		if(!running) {
+		if (!running) {
 			running = true;
 			updateParameters();
 			iteration = 0;
