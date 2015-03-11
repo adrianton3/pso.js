@@ -12,8 +12,8 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	var fundom = [
 		{ fun: function(x) { return Math.cos(Math.PI * 2 * x[0]) * 5 - Math.pow(x[0], 2); }, domain: [new Interval(-5.12,5.12)] },
 		{ fun: function(x) { return -Math.cos(x[0])*Math.exp(-Math.pow(x - Math.PI, 2)); }, domain: [new Interval(-30,30)] },
-	  { fun: function(x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); }, domain: [new Interval(-10,10)] },
-	  { fun: function(x) { return -x[0]*x[0]; }, domain: [new Interval(-5,5)] }
+		{ fun: function(x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); }, domain: [new Interval(-10,10)] },
+		{ fun: function(x) { return -x[0]*x[0]; }, domain: [new Interval(-5,5)] }
 	];
 	
 	var initialPopulationSize;
@@ -23,7 +23,7 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	function precomputeSamples() {
 		var nSamples = 250;
 		var ax = (domain[0].end - domain[0].start) / nSamples;
-		for(var i = 0, x = domain[0].start; i <= nSamples; i++, x += ax) {
+		for (var i = 0, x = domain[0].start; i <= nSamples; i++, x += ax) {
 			samples[i] = objectiveFunction([x]);
 		}
 	}
@@ -34,8 +34,7 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	
 	function step()	{
 		optimizer.step();
-		drawFunction();		
-		drawPopulationBest();
+		drawFunction();
 		drawPopulation();
 		drawBest();
 	}
@@ -44,34 +43,31 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 		con2d.moveTo(x1, y1);
 		con2d.lineTo(x2, y2);
 	}
-	
+
 	function drawPopulation() {
+		var particles = optimizer.getParticles();
+
 		var rap = canvas.width / (domain[0].end - domain[0].start);
-		con2d.lineWidth = 1;		
+		con2d.lineWidth = 1;
 		con2d.strokeStyle = '#F04';
-		
+
 		con2d.beginPath();
-		var particlePoisitons = optimizer.getParticles();
-		particlePoisitons.forEach(function(particlePosition) {
+		particles.forEach(function(particle) {
 			drawLine(
-				(particlePosition[0] - domain[0].start) * rap, 0,
-				(particlePosition[0] - domain[0].start) * rap, canvas.height
+				(particle.position[0] - domain[0].start) * rap, 0,
+				(particle.position[0] - domain[0].start) * rap, canvas.height
 			);
 		});
 		con2d.stroke();
-	}
-	
-	function drawPopulationBest() {
-		var rap = canvas.width / (domain[0].end - domain[0].start);
-		con2d.lineWidth = 1.2;		
+
+		con2d.lineWidth = 1.2;
 		con2d.strokeStyle = '#1FA';
-		
+
 		con2d.beginPath();
-		var particlesPoisitonBest = optimizer.getParticlesBest();
-		particlesPoisitonBest.forEach(function(particlePositionBest) {
+		particles.forEach(function(particle) {
 			drawLine(
-				(particlePositionBest[0] - domain[0].start) * rap, 0,
-				(particlePositionBest[0] - domain[0].start) * rap, canvas.height
+				(particle.bestPosition[0] - domain[0].start) * rap, 0,
+				(particle.bestPosition[0] - domain[0].start) * rap, canvas.height
 			);
 		});
 		con2d.stroke();
@@ -112,7 +108,7 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	}
 	
 	function theGreatLoop() {
-		if(running) {
+		if (running) {
 			step();
 			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
@@ -125,7 +121,7 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	}
 	
 	function start() {
-		if(!running) {
+		if (!running) {
 			running = true;
 			updateParameters();
 			iteration = 0;
