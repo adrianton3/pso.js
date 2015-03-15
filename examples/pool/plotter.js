@@ -1,3 +1,4 @@
+/* global throttler */
 (function () {
 	'use strict';
 
@@ -30,13 +31,10 @@
 
 		var jobs = [];
 
-//		var data = [];
 		repeat(resolutionY + 1, function (i) {
-//			var line = [];
 			repeat(resolutionX + 1, function (j) {
 				jobs.push(function () {
 					var value = fun(domainX.start + j * stepX, domainY.start + i * stepY);
-//					data[i][j] = value;
 
 					var hue = ((maxValue - value) / (maxValue - minValue)) * maxHue;
 					con2d.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
@@ -46,8 +44,6 @@
 					);
 				});
 			});
-
-//			data.push(line);
 		});
 
 		return jobs;
@@ -64,7 +60,7 @@
 		var jobs = getData(space, fun);
 
 		onProgress = onProgress || function (i, total) {
-//			console.log(i, total);
+			console.log(i, total);
 		};
 
 		onCompletion = onCompletion || function () {

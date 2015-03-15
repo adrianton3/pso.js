@@ -1,3 +1,4 @@
+/* global dat, Mechanism */
 (function() {
 	'use strict';
 
@@ -10,17 +11,17 @@
 	var mouseState = {
 		down: false
 	};
-	
+
 	var animationState = {
 		running: false,
 		oldTime: 0
 	};
-	
+
 	var userPointSet = [];
 	var mechanismPointSet = [];
 
 	var defaultNWorkers = 4;
-	
+
 	window.addEventListener('load', setup);
 
 	function getDefaults(parameterListing) {
@@ -30,13 +31,7 @@
 		});
 		return obj;
 	}
-	
-	function getDomain(parameterListing) {
-		return parameterListing.map(function(element) {
-			return element.interval;
-		});
-	}
-	
+
 	function getParameters(ar, parameterListing, store) {
 		var obj = store || {};
 		ar.forEach(function(element, index) {
@@ -49,41 +44,42 @@
 		function setupCanvas() {
 			var canvas = document.getElementById('canvaspso');
 			Draw.init(canvas);
-            Draw.clearColor('#234');
-	
+			Draw.clearColor('#234');
+
 			canvas.addEventListener('mousemove', onMouseMove, false);
 			canvas.addEventListener('mousedown', onMouseDown, false);
 			canvas.addEventListener('mouseup', onMouseUp, false);
 		}
-		
+
 		function setupParameters() {
 			parameterListing = [
 				{ key: 'cog1X', def: 400, interval: new pso.Interval(350, 500) },
 				{ key: 'cog1Y', def: 400, interval: new pso.Interval(350, 450) },
 				{ key: 'cog1R', def: 50, interval: new pso.Interval(10, 90) },
-				
+
 				{ key: 'cog2X', def: 200, interval: new pso.Interval(50, 250) },
 				{ key: 'cog2Y', def: 400, interval: new pso.Interval(350, 450) },
 				{ key: 'cog2R', def: 50, interval: new pso.Interval(10, 90) },
 				{ key: 'cog2AngleOffset', def: 0, interval: new pso.Interval(0, Math.PI * 2) },
-				
+
 				{ key: 'rod1Len', def: 120, interval: new pso.Interval(80, 200) },
 				{ key: 'rod2Len', def: 120, interval: new pso.Interval(80, 200) },
 				{ key: 'rod1Ext', def: 120, interval: new pso.Interval(80, 200) }
 			];
-			
+
 			parameters = getDefaults(parameterListing);
 		}
-		
+
 		function setupMechanism() {
 			mechanism = new Mechanism(parameters);
 		}
-		
+
 		function setupGUI() {
 			gui = new dat.GUI();
-			
+
 			parameterListing.forEach(function (element) {
-				gui.add(parameters, element.key, element.interval.start, element.interval.end, 0.1).onChange(function(value) {
+				gui.add(parameters, element.key, element.interval.start, element.interval.end, 0.1)
+				.onChange(function () {
 					Draw.clear();
 					drawUserPointSet();
 					mechanismPointSet = mechanism.getPointSet(100);
@@ -93,24 +89,24 @@
 					}
 				});
 			});
-			
+
 			gui.add(dummy, 'animate');
 			gui.add(dummy, 'search');
 			gui.add(dummy, 'reset');
 		}
-		
+
 		function setupDummy() {
 			dummy = {};
 			dummy.animate = startStopAnimation.bind(this);
 			dummy.search = run;
 			dummy.reset = reset;
 		}
-		
+
 		setupCanvas();
 		setupParameters();
-		setupMechanism();		
+		setupMechanism();
 		setupDummy();
-		
+
 		setupGUI();
 	}
 //=============================================================================
@@ -123,53 +119,56 @@
 	}
 //=============================================================================
 	function startAnimation() {
-		if (animationState.running) return ;
-		
+		if (animationState.running) { return; }
+
 		mechanismPointSet = mechanism.getPointSet(100);
-		
+
 		var accumulatedProgress = 0;
 		var oldTime = 0;
-		
+
 		animationState.running = true;
 		var loop = function (time) {
 			if (animationState.running) {
-				var delta = time - oldTime; 
+				var delta = time - oldTime;
 				oldTime = time;
-				
-				Draw.clear();				
-				drawUserPointSet();				
+
+				Draw.clear();
+				drawUserPointSet();
 				drawMechanismPointSet();
-				
+
 				mechanism.drawAt(accumulatedProgress);
 				if (!isNaN(delta)) {
 					accumulatedProgress += delta * 0.002;
 				}
-			
+
 				if (animationState.running) {
 					animationState.requestId = requestAnimationFrame(loop);
 				}
 			}
-		}.bind(this);
-		
+		};
+
 		loop();
 	}
-	
+
 	function stopAnimation() {
-		if (!animationState.running) return ;
-		
+		if (!animationState.running) { return; }
+
 		animationState.running = false;
 		cancelAnimationFrame(animationState.requestId);
-		
+
 		Draw.clear();
 		drawUserPointSet();
 		mechanismPointSet = mechanism.getPointSet(100);
 		drawMechanismPointSet();
 		mechanism.drawAt(0);
 	}
-	
+
 	function startStopAnimation() {
-		if (!animationState.running) startAnimation();
-		else stopAnimation();
+		if (!animationState.running) {
+			startAnimation();
+		} else {
+			stopAnimation();
+		}
 	}
 //=============================================================================
 	function drawUserPointSet() {
@@ -177,8 +176,8 @@
 		Draw.lineColor('#F28');
 		Draw.path(userPointSet);
 	}
-	
-	function drawMechanismPointSet(pointSet) {
+
+	function drawMechanismPointSet() {
 		Draw.lineWidth(1.2);
 		Draw.lineColor('#FFF');
 		Draw.path(mechanismPointSet);
@@ -187,23 +186,23 @@
 	var searching = false;
 
 	function run() {
-		if (searching) return ;
+		if (searching) { return; }
 		searching = true;
 		var bestFitness = -Infinity;
 		stopAnimation();
 		Draw.clear();
 		drawUserPointSet();
-		
+
 		var nWorkers = navigator.hardwareConcurrency || defaultNWorkers;
 		for (var i = 0; i < nWorkers; i++) {
 			var worker = new Worker('worker.js');
 			worker.postMessage({ userPointSet: userPointSet, parameterListing: parameterListing, id: i });
 			worker.onmessage = onMessage;
 		}
-		
+
 		var doneRecv = 0;
 		var doneExpected = nWorkers;
-		
+
 		function onMessage(ev) {
 			if (ev.data.done) {
 				doneRecv++;
@@ -217,10 +216,10 @@
 					bestFitness = candidateBestFitness;
 					var bestPosition = ev.data.bestPosition;
 					getParameters(bestPosition, parameterListing, parameters);
-					
+
 					Draw.clear();
 					drawUserPointSet();
-					
+
 					mechanismPointSet = mechanism.getPointSet(100);
 					drawMechanismPointSet();
 					mechanism.drawAt(0);

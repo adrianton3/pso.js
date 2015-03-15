@@ -1,4 +1,10 @@
-require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
+require([
+	'pso/Optimizer',
+	'pso/Interval'
+], function (
+	Optimizer,
+	Interval
+) {
 	'use strict';
 
 	var canvas, con2d;
@@ -8,18 +14,25 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 	var domain = null;
 	var objectiveFunction;
 	var samples = [];
-	
-	var fundom = [
-		{ fun: function(x) { return Math.cos(Math.PI * 2 * x[0]) * 5 - Math.pow(x[0], 2); }, domain: [new Interval(-5.12,5.12)] },
-		{ fun: function(x) { return -Math.cos(x[0])*Math.exp(-Math.pow(x - Math.PI, 2)); }, domain: [new Interval(-30,30)] },
-		{ fun: function(x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); }, domain: [new Interval(-10,10)] },
-		{ fun: function(x) { return -x[0]*x[0]; }, domain: [new Interval(-5,5)] }
-	];
-	
+
+	var fundom = [{
+		fun: function (x) { return Math.cos(Math.PI * 2 * x[0]) * 5 - Math.pow(x[0], 2); },
+		domain: [new Interval(-5.12, 5.12)]
+	}, {
+		fun: function (x) { return -Math.cos(x[0]) * Math.exp(-Math.pow(x - Math.PI, 2)); },
+		domain: [new Interval(-30, 30)]
+	}, {
+		fun: function (x) { return Math.exp(-Math.pow(x[0] - 5, 2)) * 20 + Math.cos(x[0] * 10); },
+		domain: [new Interval(-10, 10)]
+	}, {
+		fun: function (x) { return -Math.pow(x[0], 2); },
+		domain: [new Interval(-5, 5)]
+	}];
+
 	var initialPopulationSize;
 	var timeoutId = null;
 	var running = false;
-	
+
 	function precomputeSamples() {
 		var nSamples = 250;
 		var ax = (domain[0].end - domain[0].start) / nSamples;
@@ -27,18 +40,18 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 			samples[i] = objectiveFunction([x]);
 		}
 	}
-	
+
 	function init()	{
 		optimizer.init(initialPopulationSize, domain);
 	}
-	
+
 	function step()	{
 		optimizer.step();
 		drawFunction();
 		drawPopulation();
 		drawBest();
 	}
-	
+
 	function drawLine(x1, y1, x2, y2) {
 		con2d.moveTo(x1, y1);
 		con2d.lineTo(x2, y2);
@@ -72,12 +85,12 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 		});
 		con2d.stroke();
 	}
-	
+
 	function drawBest() {
 		var rap = canvas.width / (domain[0].end - domain[0].start);
-		con2d.lineWidth = 1.5;		
+		con2d.lineWidth = 1.5;
 		con2d.strokeStyle = '#05F';
-		
+
 		con2d.beginPath();
 		var best = optimizer.getBestPosition();
 		drawLine(
@@ -86,17 +99,17 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 		);
 		con2d.stroke();
 	}
-	
+
 	function drawFunction() {
-		var cx = canvas.width / 2, cy = canvas.height / 2;
+		var cy = canvas.height / 2;
 		var ax = canvas.width / (samples.length - 1);
-		
+
 		con2d.fillStyle = '#FFF';
 		con2d.fillRect(0, 0, canvas.width, canvas.height);
-		
+
 		con2d.strokeStyle = '#888';
 		con2d.lineWidth = 2.2;
-		 
+
 		con2d.beginPath();
 		for(var i = 1, x = ax; i < samples.length; i++, x += ax) {
 			drawLine(
@@ -106,20 +119,20 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 		}
 		con2d.stroke();
 	}
-	
+
 	function theGreatLoop() {
 		if (running) {
 			step();
 			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
 			if (iteration < iterationNMax) {
-				timeoutId = setTimeout(theGreatLoop,delay);
+				timeoutId = setTimeout(theGreatLoop, delay);
 			} else {
 				running = false;
 			}
 		}
 	}
-	
+
 	function start() {
 		if (!running) {
 			running = true;
@@ -129,7 +142,7 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 			theGreatLoop();
 		}
 	}
-	
+
 	function stop() {
 		if (timeoutId !== null) {
 			clearTimeout(timeoutId);
@@ -137,44 +150,44 @@ require(['pso/Optimizer', 'pso/Interval'], function (Optimizer, Interval) {
 		}
 		running = false;
 	}
-	
-	function updateFunction() {	 
+
+	function updateFunction() {
 		stop();
-		
-		var index = document.getElementById("lst_func").selectedIndex;
+
+		var index = document.getElementById('lst_func').selectedIndex;
 		optimizer.setObjectiveFunction(fundom[index].fun);
 		domain = fundom[index].domain;
 		objectiveFunction = fundom[index].fun;
 		precomputeSamples();
 		drawFunction();
 	}
-	
+
 	function updateParameters() {
 		delay = parseInt(document.getElementById('inp_delay').value);
 		iterationNMax = parseInt(document.getElementById('inp_niter').value);
-	
+
 		initialPopulationSize = parseInt(document.getElementById('inp_popinit').value);
 		var inertiaWeight = parseFloat(document.getElementById('inp_accel').value);
 		var social = parseFloat(document.getElementById('inp_social').value);
 		var personal = parseFloat(document.getElementById('inp_personal').value);
-	
+
 		optimizer.setOptions({
-	 		inertiaWeight: inertiaWeight,
-	 		social: social,
-	 		personal: personal
+			inertiaWeight: inertiaWeight,
+			social: social,
+			personal: personal
 		});
 	}
-	
+
 	function setup() {
 		canvas = document.getElementById('canvaspso');
 		con2d = canvas.getContext('2d');
-	
+
 		document.getElementById('but_start').addEventListener('click', start);
 		document.getElementById('but_stop').addEventListener('click', stop);
 		document.getElementById('lst_func').addEventListener('change', updateFunction);
-		
+
 		updateFunction();
 	}
-	
+
 	setup();
 })();

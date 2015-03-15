@@ -1,0 +1,25 @@
+{
+  "globals": {
+    "WorkerGlobalScope": true,
+    "performance": true,
+    "importScripts": true,
+    "pso": true,
+    "Draw": true,
+    "DrawA": true
+  },
+  "rules": {
+    "quotes": [2, "single", "avoid-escape"],
+    "no-underscore-dangle": false,
+    "no-shadow": false,
+    "no-loop-func": false,
+    "eol-last": false,
+    "no-use-before-define": true,
+    "new-cap": false,
+    "no-constant-condition": false
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "amd": true
+  }
+}

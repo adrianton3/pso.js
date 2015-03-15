@@ -1,3 +1,4 @@
+/* global angular, Chart, meta */
 (function () {
 	'use strict';
 

@@ -1,3 +1,4 @@
+/* global p2, throttler */
 (function () {
 	'use strict';
 
@@ -129,10 +130,8 @@
 
 				if (entityA.type === 'sensor') {
 					removeEntity(entityB);
-//					console.log(ev);
 				} else if (entityB.type === 'sensor') {
 					removeEntity(entityA);
-//					console.log(ev);
 				}
 			});
 		}

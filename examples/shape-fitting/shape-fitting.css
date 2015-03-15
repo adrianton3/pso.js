@@ -5,7 +5,11 @@ canvas {
 }
 
 button {
-    width: 96px;
+    width: 106px;
+}
+
+select {
+    width: 106px;
 }
 
 body {

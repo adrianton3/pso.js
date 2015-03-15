@@ -9,12 +9,12 @@
 		this.bestPosition = new Array(this.position.length);
 		this.fitness = -Infinity;
 		this.bestFitness = -Infinity;
-	 
+
 		this._inertiaWeight = options.inertiaWeight;
 		this._social = options.social;
 		this._personal = options.personal;
 	}
-	
+
 	Particle.prototype = {
 		// Stores the current position as its best so far.
 		storePosition: function () {
@@ -51,7 +51,7 @@
 			}.bind(this));
 		}
 	};
-	
+
 	Particle.createRandom = function (domain, options, random) {
 		var position = domain.map(function (interval) {
 			return random() * (interval.end - interval.start) + interval.start;
@@ -75,7 +75,7 @@
 	function Optimizer() {
 		this._particles = null;
 		this._objectiveFunction = null;
-		
+
 		this._bestPositionEver = null;
 		this._bestFitnessEver = -Infinity;
 
@@ -122,7 +122,7 @@
 				this._options.pressure = options.pressure;
 			}
 		},
-		
+
 		setObjectiveFunction: function (objectiveFunction, options) {
 			this._objectiveFunction = objectiveFunction;
 			this._async = options && options.async;
@@ -139,7 +139,7 @@
 
 			this._bestPositionEver = null;
 			this._bestFitnessEver = -Infinity;
-			
+
 			this._particles = [];
 			for (var i = 0; i < nParticles; i++) {
 				this._particles.push(generator());
@@ -150,16 +150,16 @@
 		// The subset's size depends on the *pressure* parameter
 		_getRandomBest: function (except) {
 			var ret = Math.floor(this.rng.random() * this._particles.length);
-			
+
 			this._particles.forEach(function (particle, index) {
 				if (this.rng.random() < this._options.pressure &&
-					this._particles[index].fitness > this._particles[ret].fitness && 
+					this._particles[index].fitness > this._particles[ret].fitness &&
 					index !== except
 				) {
 					ret = index;
 				}
 			}.bind(this));
-			
+
 			return ret;
 		},
 
@@ -198,20 +198,20 @@
 				if (particle.fitness > particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
 					particle.storePosition();
-		
+
 					if (particle.fitness > this._bestFitnessEver) {
 						this._bestFitnessEver = particle.fitness;
 						this._bestPositionEver = particle.getPosition();
 					}
 				}
 			}.bind(this));
-		 
+
 			// Update velocities
 			this._particles.forEach(function (particle, index) {
 				var randomBest = this._particles[this._getRandomBest(index)];
 				particle.updateVelocity(randomBest, this.rng.random);
 			}.bind(this));
-		    
+
 			// Update positions
 			this._particles.forEach(function (particle) {
 				particle.updatePosition();
