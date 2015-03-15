@@ -1,3 +1,4 @@
+/* global plotter, makeSimulation, reverseCoords, throttler */
 (function () {
 	'use strict';
 
@@ -70,7 +71,7 @@
 			if (predicate()) {
 				body.apply(null, arguments);
 			}
-		}
+		};
 	}
 
 	function isIdle() {
@@ -84,7 +85,7 @@
 			funs.forEach(function (fun) {
 				fun.apply(null, args);
 			});
-		}
+		};
 	}
 
 	function ifIdle(fun) {

@@ -110,7 +110,7 @@
 			}
 
 			return -(Math.pow(empty, 2) + Math.pow(overlapped, 2));
-		}
+		};
 	})();
 
 	function drawShape(con2d, shape, x, y, angle, scale) {
@@ -181,7 +181,6 @@
 			optimizer.step();
 
 			var position = optimizer.getBestPosition();
-			var coverage = optimizer.getBestFitness();
 
 			Draw.clear();
 			for (var i = 0; i < nShapes; i++) {

@@ -1,3 +1,4 @@
+/* global p2, throttler */
 (function () {
 	'use strict';
 

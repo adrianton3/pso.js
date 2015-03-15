@@ -1,3 +1,4 @@
+/* global angular, Chart, par */
 (function () {
 	'use strict';
 
@@ -82,28 +83,24 @@
 
 		var data = {
 			labels: labels,
-			datasets: [
-				{
-					label: 'Best',
-					strokeColor: 'rgb(120,120,120)',
-					pointColor: 'rgb(120,120,120)',
-					pointStrokeColor: '#fff',
-					pointHighlightFill: '#fff',
-					pointHighlightStroke: 'rgb(120,120,120)',
-					data: averageBest
-				},
-				{
-					label: 'Mean',
-					strokeColor: 'rgb(151,187,205)',
-					pointColor: 'rgb(151,187,205)',
-					pointStrokeColor: '#fff',
-					pointHighlightFill: '#fff',
-					pointHighlightStroke: 'rgb(151,187,205)',
-					data: averageMean
-				}
-			]
+			datasets: [{
+				label: 'Best',
+				strokeColor: 'rgb(120,120,120)',
+				pointColor: 'rgb(120,120,120)',
+				pointStrokeColor: '#fff',
+				pointHighlightFill: '#fff',
+				pointHighlightStroke: 'rgb(120,120,120)',
+				data: averageBest
+			}, {
+				label: 'Mean',
+				strokeColor: 'rgb(151,187,205)',
+				pointColor: 'rgb(151,187,205)',
+				pointStrokeColor: '#fff',
+				pointHighlightFill: '#fff',
+				pointHighlightStroke: 'rgb(151,187,205)',
+				data: averageMean
+			}]
 		};
-
 
 		var con2d = document.getElementById('chart').getContext('2d');
 		return new Chart(con2d).Line(data, {
@@ -154,6 +151,6 @@
 
 			var entries = getEntries(nSamples, specs);
 			workerPool.run(entries, onUpdate, onComplete.bind(this));
-		}
+		};
 	}]);
 })();

@@ -1,3 +1,4 @@
+/* global makeSimulation */
 'use strict';
 
 importScripts('../lib/p2.min.js');

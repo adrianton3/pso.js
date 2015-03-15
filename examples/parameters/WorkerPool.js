@@ -17,7 +17,7 @@
 
 	WorkerPool.prototype._createWorkers = function (size) {
 		for (var i = 0; i < size; i++) {
-			(function (i) {
+			(function () {
 				var worker = new Worker('worker.js');
 				worker.onmessage = function (ev) {
 					if (ev.data.message === 'idle') {
@@ -27,7 +27,7 @@
 					}
 				}.bind(this);
 				this._workers.push(worker);
-			}.bind(this))(i);
+			}.bind(this))();
 		}
 	};
 
@@ -38,7 +38,7 @@
 
 		this._done = 0;
 
-		this._workers.forEach(this._next.bind(this))
+		this._workers.forEach(this._next.bind(this));
 	};
 
 

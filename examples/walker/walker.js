@@ -1,3 +1,4 @@
+/* global makePool, makeSimulation */
 (function () {
 	'use strict';
 
@@ -86,7 +87,7 @@
 					});
 
 					element.appendChild(li);
-				})
+				});
 			}
 
 			var particles = optimizer.getParticles();
