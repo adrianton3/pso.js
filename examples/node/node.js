@@ -1,6 +1,6 @@
 'use strict';
 
-var pso = require('../../src/pso.js');
+var pso = require('pso');
 
 // create the optimizer
 var optimizer = new pso.Optimizer();
