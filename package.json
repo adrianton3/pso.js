@@ -2,7 +2,7 @@
   "name": "pso",
   "description": "Particle Swarm Optimization library",
   "author": "Adrian Toncean <adrianton3@gmail.com>",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "src/pso.js",
   "repository": {
     "type": "git",

@@ -8,6 +8,7 @@ Sample applications
 
 + [simple](http://adrianton3.github.io/pso.js/examples/simple/simple.html) A simple application that optimizes a one dimensional function
 + [simple-require](http://adrianton3.github.io/pso.js/examples/simple_require/simple_require.html) The same as *simple*, except using RequireJS
++ [simple-node](http://adrianton3.github.io/pso.js/examples/node/node.js) A simple node example
 + [automaton](http://adrianton3.github.io/pso.js/examples/automaton/automaton.html) A more sophisticated application that adapts a mechanism for a specified output path.
 pso.js is launched in this case by web workers
 + [circles](http://adrianton3.github.io/pso.js/examples/circles/circles.html) A simple application that optimizes a two dimensional function
@@ -30,7 +31,7 @@ var optimizer = new pso.Optimizer();
 // set the objective function
 optimizer.setObjectiveFunction(function (x) { return -(x[0] * x[0] + x[1] * x[1]); });
 
-// set an initial population of 20 particles spread across the search space *[-10, 10] x [-10, 10]* 
+// set an initial population of 20 particles spread across the search space *[-10, 10] x [-10, 10]*
 optimizer.init(20, [{ start: -10, end: 10 }, { start: -10, end: 10 }]);
 
 // run the optimizer 40 iterations
@@ -51,11 +52,14 @@ The `setOptions` method takes a single map-like object - here are its default va
 	{
 		inertiaWeight: 0.8,
 		social: 0.4,
-		personal: 0.4
+		personal: 0.4,
+		pressure: 0.5
 	}
 ```
- 
-The `social` parameter dictates how much a particle should be influenced by the best performing particle in the swarm.
-The `personal` parameter dictates how much a particle should be influenced by the best position it has been in.
+
++ `inertiaWeight` is multiplied every frame with the previous velocity
++ `social` dictates how much a particle should be influenced by the best performing particle in the swarm
++ `personal` indicates how much a particle should be influenced by the best position it has been in
++ `pressure` is the bias in selecting the best performing particle in the swarm
 
 For more details consult the [annotated source](http://adrianton3.github.io/pso.js/docs/pso.html).
