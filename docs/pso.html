@@ -53,12 +53,12 @@
 		<span class="hljs-keyword">this</span>.bestPosition = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-keyword">this</span>.position.length);
 		<span class="hljs-keyword">this</span>.fitness = -<span class="hljs-literal">Infinity</span>;
 		<span class="hljs-keyword">this</span>.bestFitness = -<span class="hljs-literal">Infinity</span>;
-	 
+
 		<span class="hljs-keyword">this</span>._inertiaWeight = options.inertiaWeight;
 		<span class="hljs-keyword">this</span>._social = options.social;
 		<span class="hljs-keyword">this</span>._personal = options.personal;
 	}
-	
+
 	Particle.prototype = {</pre></div></div>
             
         </li>
@@ -134,7 +134,7 @@ the best position the current particle has saved.</p>
 				<span class="hljs-keyword">var</span> personalInfluence = (<span class="hljs-keyword">this</span>.bestPosition[index] - component) * random() * <span class="hljs-keyword">this</span>._personal;
 
 				<span class="hljs-keyword">this</span>.velocity[index] = inertia + socialInfluence + personalInfluence;
-			}.bind(<span class="hljs-keyword">this</span>));
+			}, <span class="hljs-keyword">this</span>);
 		},</pre></div></div>
             
         </li>
@@ -153,10 +153,10 @@ the best position the current particle has saved.</p>
             <div class="content"><div class='highlight'><pre>		updatePosition: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
 			<span class="hljs-keyword">this</span>.velocity.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component, index)</span> </span>{
 				<span class="hljs-keyword">this</span>.position[index] += component;
-			}.bind(<span class="hljs-keyword">this</span>));
+			}, <span class="hljs-keyword">this</span>);
 		}
 	};
-	
+
 	Particle.createRandom = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(domain, options, random)</span> </span>{
 		<span class="hljs-keyword">var</span> position = domain.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(interval)</span> </span>{
 			<span class="hljs-keyword">return</span> random() * (interval.end - interval.start) + interval.start;
@@ -230,7 +230,7 @@ An <em>Interval</em> is anything with a <em>start</em> and an <em>end</em>.</p>
             <div class="content"><div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Optimizer</span><span class="hljs-params">()</span> </span>{
 		<span class="hljs-keyword">this</span>._particles = <span class="hljs-literal">null</span>;
 		<span class="hljs-keyword">this</span>._objectiveFunction = <span class="hljs-literal">null</span>;
-		
+
 		<span class="hljs-keyword">this</span>._bestPositionEver = <span class="hljs-literal">null</span>;
 		<span class="hljs-keyword">this</span>._bestFitnessEver = -<span class="hljs-literal">Infinity</span>;
 
@@ -334,7 +334,7 @@ the actual best is computed at every iteration</li>
 				<span class="hljs-keyword">this</span>._options.pressure = options.pressure;
 			}
 		},
-		
+
 		setObjectiveFunction: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(objectiveFunction, options)</span> </span>{
 			<span class="hljs-keyword">this</span>._objectiveFunction = objectiveFunction;
 			<span class="hljs-keyword">this</span>._async = options &amp;&amp; options.async;
@@ -363,7 +363,7 @@ Creates the swarm and resets any previous recorded best solutions</p>
 
 			<span class="hljs-keyword">this</span>._bestPositionEver = <span class="hljs-literal">null</span>;
 			<span class="hljs-keyword">this</span>._bestFitnessEver = -<span class="hljs-literal">Infinity</span>;
-			
+
 			<span class="hljs-keyword">this</span>._particles = [];
 			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nParticles; i++) {
 				<span class="hljs-keyword">this</span>._particles.push(generator());
@@ -386,16 +386,17 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
             
             <div class="content"><div class='highlight'><pre>		_getRandomBest: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(except)</span> </span>{
 			<span class="hljs-keyword">var</span> ret = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-keyword">this</span>.rng.random() * <span class="hljs-keyword">this</span>._particles.length);
-			
+
 			<span class="hljs-keyword">this</span>._particles.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(particle, index)</span> </span>{
-				<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.rng.random() &lt; <span class="hljs-keyword">this</span>._options.pressure &amp;&amp;
-					<span class="hljs-keyword">this</span>._particles[index].fitness &gt; <span class="hljs-keyword">this</span>._particles[ret].fitness &amp;&amp; 
+				<span class="hljs-keyword">if</span> (
+					<span class="hljs-keyword">this</span>.rng.random() &lt; <span class="hljs-keyword">this</span>._options.pressure &amp;&amp;
+					<span class="hljs-keyword">this</span>._particles[index].fitness &gt; <span class="hljs-keyword">this</span>._particles[ret].fitness &amp;&amp;
 					index !== except
 				) {
 					ret = index;
 				}
-			}.bind(<span class="hljs-keyword">this</span>));
-			
+			}, <span class="hljs-keyword">this</span>);
+
 			<span class="hljs-keyword">return</span> ret;
 		},</pre></div></div>
             
@@ -431,11 +432,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
 							callback();
 						}
 					}.bind(<span class="hljs-keyword">this</span>));
-				}.bind(<span class="hljs-keyword">this</span>));
+				}, <span class="hljs-keyword">this</span>);
 			} <span class="hljs-keyword">else</span> {
 				<span class="hljs-keyword">this</span>._particles.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(particle)</span> </span>{
 					particle.fitness = <span class="hljs-keyword">this</span>._objectiveFunction(particle.position);
-				}.bind(<span class="hljs-keyword">this</span>));
+				}, <span class="hljs-keyword">this</span>);
 				<span class="hljs-keyword">this</span>._completeStep();
 			}
 		},
@@ -459,13 +460,13 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
 				<span class="hljs-keyword">if</span> (particle.fitness &gt; particle.bestFitness) {
 					particle.bestFitness = particle.fitness;
 					particle.storePosition();
-		
+
 					<span class="hljs-keyword">if</span> (particle.fitness &gt; <span class="hljs-keyword">this</span>._bestFitnessEver) {
 						<span class="hljs-keyword">this</span>._bestFitnessEver = particle.fitness;
 						<span class="hljs-keyword">this</span>._bestPositionEver = particle.getPosition();
 					}
 				}
-			}.bind(<span class="hljs-keyword">this</span>));</pre></div></div>
+			}, <span class="hljs-keyword">this</span>);</pre></div></div>
             
         </li>
         
@@ -483,7 +484,7 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
             <div class="content"><div class='highlight'><pre>			<span class="hljs-keyword">this</span>._particles.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(particle, index)</span> </span>{
 				<span class="hljs-keyword">var</span> randomBest = <span class="hljs-keyword">this</span>._particles[<span class="hljs-keyword">this</span>._getRandomBest(index)];
 				particle.updateVelocity(randomBest, <span class="hljs-keyword">this</span>.rng.random);
-			}.bind(<span class="hljs-keyword">this</span>));</pre></div></div>
+			}, <span class="hljs-keyword">this</span>);</pre></div></div>
             
         </li>
         
@@ -518,7 +519,12 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
             
             <div class="content"><div class='highlight'><pre>		getParticles: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
 			<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._particles.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(particle)</span> </span>{
-				<span class="hljs-keyword">return</span> particle.getPosition();
+				<span class="hljs-keyword">return</span> {
+					position: particle.getPosition(),
+					fitness: particle.fitness,
+					bestPosition: particle.getBestPosition(),
+					bestFitness: particle.bestFitness
+				};
 			});
 		},</pre></div></div>
             
@@ -531,25 +537,6 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>Retrieves an array of the best solutions encountered by every particle</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>		getParticlesBest: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-			<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._particles.map(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(particle)</span> </span>{
-				<span class="hljs-keyword">return</span> particle.getBestPosition();
-			});
-		},</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-24">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
-              </div>
               <p>Retrieves the best solution ever recorded</p>
 
             </div>
@@ -561,11 +548,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-25">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>Retrieves the best fitness ever recorded</p>
 
@@ -578,11 +565,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-26">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p>Retrieves the mean fitness of the entire swarm</p>
 
@@ -599,11 +586,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-27">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <hr>
 
@@ -612,11 +599,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-28">
+        <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p><em>pso.js</em> works</p>
 
@@ -627,11 +614,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-29">
+        <li id="section-28">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <ul>
 <li>with <em>RequireJS</em></li>
@@ -653,11 +640,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-30">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <ul>
 <li>from a <em>WebWorker</em></li>
@@ -671,11 +658,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-31">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <ul>
 <li>in <em>node</em></li>
@@ -689,11 +676,11 @@ The subset’s size depends on the <em>pressure</em> parameter</p>
         </li>
         
         
-        <li id="section-32">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <ul>
 <li>or in a plain browser environment</li>
