@@ -41,14 +41,14 @@
 				var personalInfluence = (this.bestPosition[index] - component) * random() * this._personal;
 
 				this.velocity[index] = inertia + socialInfluence + personalInfluence;
-			}.bind(this));
+			}, this);
 		},
 
 		// Applies the velocity
 		updatePosition: function () {
 			this.velocity.forEach(function (component, index) {
 				this.position[index] += component;
-			}.bind(this));
+			}, this);
 		}
 	};
 
@@ -152,13 +152,14 @@
 			var ret = Math.floor(this.rng.random() * this._particles.length);
 
 			this._particles.forEach(function (particle, index) {
-				if (this.rng.random() < this._options.pressure &&
+				if (
+					this.rng.random() < this._options.pressure &&
 					this._particles[index].fitness > this._particles[ret].fitness &&
 					index !== except
 				) {
 					ret = index;
 				}
-			}.bind(this));
+			}, this);
 
 			return ret;
 		},
@@ -183,11 +184,11 @@
 							callback();
 						}
 					}.bind(this));
-				}.bind(this));
+				}, this);
 			} else {
 				this._particles.forEach(function (particle) {
 					particle.fitness = this._objectiveFunction(particle.position);
-				}.bind(this));
+				}, this);
 				this._completeStep();
 			}
 		},
@@ -204,13 +205,13 @@
 						this._bestPositionEver = particle.getPosition();
 					}
 				}
-			}.bind(this));
+			}, this);
 
 			// Update velocities
 			this._particles.forEach(function (particle, index) {
 				var randomBest = this._particles[this._getRandomBest(index)];
 				particle.updateVelocity(randomBest, this.rng.random);
-			}.bind(this));
+			}, this);
 
 			// Update positions
 			this._particles.forEach(function (particle) {
