@@ -1,0 +1,21 @@
+input {
+    width: 56px;
+}
+
+.app {
+    width: 602px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#out_best {
+    width: 350px;
+}
+
+canvas {
+    border: 1px solid #888888;
+}
+
+button {
+    width: 64px;
+}
