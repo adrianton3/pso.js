@@ -1,0 +1,18 @@
+.slider {
+    width: 100px;
+    height: 19px;
+    user-select: none;
+    cursor: ew-resize;
+}
+
+.slider-root {
+    background-color: #FFF;
+    margin: 0 8px;
+    vertical-align: bottom;
+    display: inline-block;
+    border: 1px solid #AAA;
+}
+
+.slider-left {
+    background-color: #27b0ff;
+}

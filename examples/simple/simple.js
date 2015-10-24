@@ -176,6 +176,16 @@
 		canvas = document.getElementById('canvaspso');
 		con2d = canvas.getContext('2d');
 
+		function createSliderPair(sliderId, inputId) {
+			associateSlider(
+				document.getElementById(sliderId),
+				document.getElementById(inputId)
+			);
+		}
+
+		createSliderPair('slider_delay', 'inp_delay');
+		createSliderPair('slider_niter', 'inp_niter');
+
 		document.getElementById('but_start').addEventListener('click', start);
 		document.getElementById('but_stop').addEventListener('click', stop);
 		document.getElementById('lst_func').addEventListener('change', updateFunction);
