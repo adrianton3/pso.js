@@ -1,154 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="../lib/slider/slider.css">
-	<style>
-		input {
-			width: 56px;
-		}
-	</style>
+	<link rel="stylesheet" href="../lib/slider/slider.css">
+	<link rel="stylesheet" href="simple.css">
 </head>
 <body>
 	<a href="https://github.com/adrianton3/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
-	<canvas id="canvaspso" width="600" height="200" style="border-style:solid"></canvas>
+	<div class="app">
+		<canvas id="canvaspso" width="600" height="200"></canvas>
 
-	<table>
-		<tr>
-			<td>
-				Start the search
-			</td>
-			<td>
-				<input id="but_start" type="button" value="Start" style="width: 64px"/>
-			</td>
-		</tr>
+		<table>
+			<tr>
+				<td>
+					Start the search
+				</td>
+				<td>
+					<button id="but_start">Start</button>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Stop the search
-			</td>
-			<td>
-				<input id="but_stop" type="button" value="Stop" style="width: 64px"/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Stop the search
+				</td>
+				<td>
+					<button id="but_stop">Stop</button>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Best so far
-			</td>
-			<td>
-				<input id="out_best" type="text" value="" readonly="readonly" size="50"/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Best so far
+				</td>
+				<td>
+					<input id="out_best" type="text" value="" readonly="readonly">
+				</td>
+			</tr>
 
-		<tr>
-			<td colspan="2">
-				<hr/>
-			</td>
-		</tr>
+			<tr>
+				<td colspan="2">
+					<hr/>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				<span style="user-select: none;">Number of iterations</span>
-			</td>
-			<td>
-				<slider id="slider_niter"></slider>
-				<input
-					id="inp_niter"
-					type="number"
-					min="1"
-					max="150"
-					value="50"
-					step="1"
-				/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Number of iterations
+				</td>
+				<td>
+					<slider id="slider_niter"></slider>
+					<input
+						id="inp_niter"
+						type="number"
+						min="1"
+						max="150"
+						value="50"
+						step="1"
+					>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Population dimension
-			</td>
-			<td>
-				<slider id="slider_popinit"></slider>
-				<input
-					id="inp_popinit"
-					type="number"
-					min="2"
-					max="50"
-					value="10"
-					step="1"
-				/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Population
+				</td>
+				<td>
+					<slider id="slider_popinit"></slider>
+					<input
+						id="inp_popinit"
+						type="number"
+						min="2"
+						max="50"
+						value="10"
+						step="1"
+					>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Inertia weight
-			</td>
-			<td>
-				<slider id="slider_inertia"></slider>
-				<input
-					id="inp_inertia"
-					type="number"
-					min="0"
-					max="1.2"
-					value="0.6"
-					step="0.01"
-				/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Inertia weight
+				</td>
+				<td>
+					<slider id="slider_inertia"></slider>
+					<input
+						id="inp_inertia"
+						type="number"
+						min="0"
+						max="1.2"
+						value="0.6"
+						step="0.01"
+					>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Social influence
-			</td>
-			<td>
-				<slider id="slider_social"></slider>
-				<input
-					id="inp_social"
-					type="number"
-					min="0"
-					max="1.2"
-					value="0.7"
-					step="0.01"
-				/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Social influence
+				</td>
+				<td>
+					<slider id="slider_social"></slider>
+					<input
+						id="inp_social"
+						type="number"
+						min="0"
+						max="1.2"
+						value="0.7"
+						step="0.01"
+					>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Personal influence
-			</td>
-			<td>
-				<slider id="slider_personal"></slider>
-				<input
-					id="inp_personal"
-					min="0"
-					max="1.2"
-					type="number"
-					value="0.3"
-					step="0.01"
-				/>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					Personal influence
+				</td>
+				<td>
+					<slider id="slider_personal"></slider>
+					<input
+						id="inp_personal"
+						min="0"
+						max="1.2"
+						type="number"
+						value="0.3"
+						step="0.01"
+					>
+				</td>
+			</tr>
 
-		<tr>
-			<td>
-				Function to maximize
-			</td>
-			<td>
-				<select id="lst_func">
-					<option>Rastrigin (x in [-5.12,5.12])</option>
-					<option>Easom (x in [-30,30])</option>
-					<option>exp(-(x-5)^2)*20 + cos(x*10) (x in [-10,10])</option>
-					<option>x^2 (x in [-5,5])</option>
-				</select>
-			</td>
-		</tr>
-	</table>
-	<br>
-	<br>
-	<a href="https://github.com/adrianton3/pso.js">pso.js</a> demo
+			<tr>
+				<td>
+					Function to maximize
+				</td>
+				<td>
+					<select id="lst_func">
+						<option>Rastrigin (x in [-5.12,5.12])</option>
+						<option>Easom (x in [-30,30])</option>
+						<option>exp(-(x-5)^2)*20 + cos(x*10) (x in [-10,10])</option>
+						<option>x^2 (x in [-5,5])</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
 
 	<script type="text/javascript" src="../lib/slider/slider.js"></script>
 

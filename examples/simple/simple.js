@@ -101,8 +101,8 @@
 		con2d.fillStyle = '#FFF';
 		con2d.fillRect(0, 0, canvas.width, canvas.height);
 
-		con2d.strokeStyle = '#888';
-		con2d.lineWidth = 2.2;
+		con2d.strokeStyle = '#555';
+		con2d.lineWidth = 1.5;
 
 		con2d.beginPath();
 		for(var i = 1, x = ax; i < samples.length; i++, x += ax) {
@@ -157,7 +157,6 @@
 	}
 
 	function updateParameters() {
-		delay = parseInt(document.getElementById('inp_delay').value);
 		iterationNMax = parseInt(document.getElementById('inp_niter').value);
 
 		initialPopulationSize = parseInt(document.getElementById('inp_popinit').value);
