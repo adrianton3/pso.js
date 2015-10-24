@@ -29,6 +29,9 @@
 			var dragging = false;
 
 			function onDown(e) {
+				e.stopPropagation();
+				e.preventDefault();
+
 				dragging = true;
 				update.call(this, e);
 			}
