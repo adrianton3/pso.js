@@ -107,8 +107,8 @@ require([
 		con2d.fillStyle = '#FFF';
 		con2d.fillRect(0, 0, canvas.width, canvas.height);
 
-		con2d.strokeStyle = '#888';
-		con2d.lineWidth = 2.2;
+		con2d.strokeStyle = '#555';
+		con2d.lineWidth = 1.5;
 
 		con2d.beginPath();
 		for(var i = 1, x = ax; i < samples.length; i++, x += ax) {
@@ -120,13 +120,13 @@ require([
 		con2d.stroke();
 	}
 
-	function theGreatLoop() {
+	function loop() {
 		if (running) {
 			step();
 			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
 			if (iteration < iterationNMax) {
-				timeoutId = setTimeout(theGreatLoop, delay);
+				timeoutId = setTimeout(loop, delay);
 			} else {
 				running = false;
 			}
@@ -139,7 +139,7 @@ require([
 			updateParameters();
 			iteration = 0;
 			init();
-			theGreatLoop();
+			loop();
 		}
 	}
 
@@ -163,11 +163,10 @@ require([
 	}
 
 	function updateParameters() {
-		delay = parseInt(document.getElementById('inp_delay').value);
 		iterationNMax = parseInt(document.getElementById('inp_niter').value);
 
 		initialPopulationSize = parseInt(document.getElementById('inp_popinit').value);
-		var inertiaWeight = parseFloat(document.getElementById('inp_accel').value);
+		var inertiaWeight = parseFloat(document.getElementById('inp_inertia').value);
 		var social = parseFloat(document.getElementById('inp_social').value);
 		var personal = parseFloat(document.getElementById('inp_personal').value);
 
@@ -181,6 +180,23 @@ require([
 	function setup() {
 		canvas = document.getElementById('canvaspso');
 		con2d = canvas.getContext('2d');
+
+		function createSliderPair(sliderId, inputId) {
+			associateSlider(
+				document.getElementById(sliderId),
+				document.getElementById(inputId)
+			);
+		}
+
+		[
+			['slider_niter', 'inp_niter'],
+			['slider_popinit', 'inp_popinit'],
+			['slider_inertia', 'inp_inertia'],
+			['slider_social', 'inp_social'],
+			['slider_personal', 'inp_personal']
+		].forEach(function (pair) {
+			createSliderPair.apply(null, pair);
+		});
 
 		document.getElementById('but_start').addEventListener('click', start);
 		document.getElementById('but_stop').addEventListener('click', stop);

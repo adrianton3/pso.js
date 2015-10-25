@@ -4,88 +4,90 @@
 		<link rel="stylesheet" type="text/css" href="shape-fitting.css">
 	</head>
 	<body>
-		<script type="text/javascript" src="../../src/pso.js"></script>
-        <script type="text/javascript" src="shape-fitting.js"></script>
-        <script type="text/javascript" src="../lib/draw.js"></script>
+        <a href="https://github.com/adrianton3/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+
+        <script type="text/javascript" src="../../src/pso.js"></script>
+		<script type="text/javascript" src="shape-fitting.js"></script>
+		<script type="text/javascript" src="../lib/draw.js"></script>
 
 		<canvas id="canvascircles" width="500" height="500" style="float: left"></canvas>
 
-        <table>
-            <tr><td colspan="2">
-                <span class="text title">Shape-fitting | <a href="https://github.com/madflame991/pso.js">pso.js</a> demo</span>
-                <br>
-                <span class="text desc">
-			        pso.js is used to find the best way to fit a set of random generated shapes in a square, with as minimum overlap as possible
-		        </span>
-            </td></tr>
+		<table>
+			<tr><td colspan="2">
+				<span class="text title">Shape-fitting | <a href="https://github.com/adrianton3/pso.js">pso.js</a> demo</span>
+				<br>
+				<span class="text desc">
+					pso.js is used to find the best way to fit a set of random generated shapes in a square, with as minimum overlap as possible
+				</span>
+			</td></tr>
 
-            <tr><td colspan="2">
-                <hr>
-            </td></tr>
+			<tr><td colspan="2">
+				<hr>
+			</td></tr>
 
-            <tr><td>
-                Controls
-            </td><td>
-                <button id="but_reset">Reset shapes!</button>
-                <button id="but_best">Optimize!</button>
-            </td></tr>
+			<tr><td>
+				Controls
+			</td><td>
+				<button id="but_reset">Reset shapes!</button>
+				<button id="but_best">Optimize!</button>
+			</td></tr>
 
-            <tr><td colspan="2">
-                <hr>
-            </td></tr>
+			<tr><td colspan="2">
+				<hr>
+			</td></tr>
 
-            <tr><td>
-                Shape type
-            </td><td>
-                <select id="shape-angles">
-                    <option value="triangle">Triangle</option>
-                    <option value="tetragon">Tetragon</option>
-                    <option value="pentagon">Pentagon</option>
-                    <option value="hexagon">Hexagon</option>
-                    <option value="octogon">Octogon</option>
-                    <option value="random" selected>Random</option>
-                </select>
+			<tr><td>
+				Shape type
+			</td><td>
+				<select id="shape-angles">
+					<option value="triangle">Triangle</option>
+					<option value="tetragon">Tetragon</option>
+					<option value="pentagon">Pentagon</option>
+					<option value="hexagon">Hexagon</option>
+					<option value="octogon">Octogon</option>
+					<option value="random" selected>Random</option>
+				</select>
 
-                <select id="shape-style">
-                    <option value="regular">Regular</option>
-                    <option value="star">Star</option>
-                    <option value="random" selected>Random</option>
-                </select>
-            </td></tr>
+				<select id="shape-style">
+					<option value="regular">Regular</option>
+					<option value="star">Star</option>
+					<option value="random" selected>Random</option>
+				</select>
+			</td></tr>
 
-            <tr><td colspan="2">
-                <hr>
-            </td></tr>
+			<tr><td colspan="2">
+				<hr>
+			</td></tr>
 
-            <tr><td>
-                Number of iterations
-            </td><td>
-                <input id="inp_niter" type="text" value="50" size="3" />
-            </td></tr>
+			<tr><td>
+				Number of iterations
+			</td><td>
+				<input id="inp_niter" type="text" value="50" size="3" />
+			</td></tr>
 
-            <tr><td>
-                Population dimension
-            </td><td>
-                <input id="inp_popinit" type="text" value="50" size="3" />
-            </td></tr>
+			<tr><td>
+				Population dimension
+			</td><td>
+				<input id="inp_popinit" type="text" value="50" size="3" />
+			</td></tr>
 
-            <tr><td>
-                Inertia weight
-            </td><td>
-                <input id="inp_accel" type="text" value="0.6" size="3" />
-            </td></tr>
+			<tr><td>
+				Inertia weight
+			</td><td>
+				<input id="inp_accel" type="text" value="0.6" size="3" />
+			</td></tr>
 
-            <tr><td>
-                Social influence
-            </td><td>
-                <input id="inp_social" type="text" value="0.7" size="3" />
-            </td></tr>
+			<tr><td>
+				Social influence
+			</td><td>
+				<input id="inp_social" type="text" value="0.7" size="3" />
+			</td></tr>
 
-            <tr><td>
-                Personal influence
-            </td><td>
-                <input id="inp_personal" type="text" value="0.3" size="3" />
-            </td></tr>
-        </table>
+			<tr><td>
+				Personal influence
+			</td><td>
+				<input id="inp_personal" type="text" value="0.3" size="3" />
+			</td></tr>
+		</table>
 	</body>
 </html>

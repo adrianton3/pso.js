@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="walker.css">
-    <title>pso.js + p2.js: walker</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="walker.css">
+	<title>pso.js + p2.js: walker</title>
 </head>
 <body>
-    <div class="title">
-        <a href="https://github.com/madflame991/pso.js">pso.js</a> +
-        <a href="https://github.com/schteppe/p2.js">p2.js</a>
-    </div>
-    <div class="desc">
-        In this example pso.js will be used to optimize a walking critter.<br>
-        The parameters for this simulation are motor speeds and body length.<br>
-        The physics simulations are handled by the physics library p2.js
-    </div>
-    <br>
-    <canvas id="can" width="768" height="256"></canvas>
+    <a href="https://github.com/adrianton3/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
-    <div id="status-container">Status: <span id="status">idle</span></div>
-    <button id="search">Search</button>
+	<div class="title">
+		<a href="https://github.com/adrianton3/pso.js">pso.js</a> +
+		<a href="https://github.com/schteppe/p2.js">p2.js</a>
+	</div>
+	<div class="desc">
+		In this example pso.js will be used to optimize a walking critter.<br>
+		The parameters for this simulation are motor speeds and body length.<br>
+		The physics simulations are handled by the physics library p2.js
+	</div>
+	<br>
+	<canvas id="can" width="768" height="256"></canvas>
 
-    <div>
-        <span>Results (initiate a search and click on a result to play the simulation)</span>
-        <ul id="best"></ul>
-        <div>...</div>
-        <ul id="worst"></ul>
-    </div>
+	<div id="status-container">Status: <span id="status">idle</span></div>
+	<button id="search">Search</button>
 
-    <script type="text/javascript" src="../../src/pso.js"></script>
-    <script src="../lib/p2.min.js"></script>
+	<div>
+		<span>Results (initiate a search and click on a result to play the simulation)</span>
+		<ul id="best"></ul>
+		<div>...</div>
+		<ul id="worst"></ul>
+	</div>
 
-    <script src="draw-a.js"></script>
-    <script src="throttler.js"></script>
-    <script src="simulation.js"></script>
-    <script src="pool.js"></script>
-    <script src="walker.js"></script>
+	<script type="text/javascript" src="../../src/pso.js"></script>
+	<script src="../lib/p2.min.js"></script>
+
+	<script src="draw-a.js"></script>
+	<script src="throttler.js"></script>
+	<script src="simulation.js"></script>
+	<script src="pool.js"></script>
+	<script src="walker.js"></script>
 </body>
 </html>
