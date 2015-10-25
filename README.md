@@ -7,7 +7,7 @@ Sample applications
 -------------------
 
 + [simple](http://adrianton3.github.io/pso.js/examples/simple/simple.html) A simple application that optimizes a one dimensional function
-+ [simple-require](http://adrianton3.github.io/pso.js/examples/simple_require/simple_require.html) The same as *simple*, except using RequireJS
++ [simple-require](http://adrianton3.github.io/pso.js/examples/simple-require/simple-require.html) The same as *simple*, except using RequireJS
 + [simple-node](http://adrianton3.github.io/pso.js/examples/node/node.js) A simple node example
 + [automaton](http://adrianton3.github.io/pso.js/examples/automaton/automaton.html) A more sophisticated application that adapts a mechanism for a specified output path.
 pso.js is launched in this case by web workers

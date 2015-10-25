@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	'use strict';
 
 	var canvas, con2d;
@@ -30,7 +30,7 @@
 	function precomputeSamples() {
 		var nSamples = 250;
 		var ax = (domain[0].end - domain[0].start) / nSamples;
-		for(var i = 0, x = domain[0].start; i <= nSamples; i++, x += ax) {
+		for (var i = 0, x = domain[0].start; i <= nSamples; i++, x += ax) {
 			samples[i] = objectiveFunction([x]);
 		}
 	}
@@ -114,13 +114,13 @@
 		con2d.stroke();
 	}
 
-	function theGreatLoop() {
+	function loop() {
 		if (running) {
 			step();
 			document.getElementById('out_best').value = 'f(' + optimizer.getBestPosition() + ') = ' + optimizer.getBestFitness();
 			iteration++;
 			if (iteration < iterationNMax) {
-				timeoutId = setTimeout(theGreatLoop, delay);
+				timeoutId = setTimeout(loop, delay);
 			} else {
 				running = false;
 			}
@@ -133,7 +133,7 @@
 			updateParameters();
 			iteration = 0;
 			init();
-			theGreatLoop();
+			loop();
 		}
 	}
 
@@ -199,5 +199,5 @@
 		updateFunction();
 	}
 
-	window.addEventListener('load', setup);
+	setup();
 })();
