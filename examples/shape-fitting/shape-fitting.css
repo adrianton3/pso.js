@@ -1,25 +1,31 @@
-canvas {
-    float: left;
-    border: 1px solid black;
-    margin-right: 20px;
-}
-
-button {
-    width: 106px;
-}
-
-select {
-    width: 106px;
-}
-
 body {
     font-family: sans-serif;
 }
 
-.title {
+canvas {
+    float: left;
+    border: 1px solid #888888;
+    margin-right: 20px;
+}
+
+button {
+    width: 100px;
+}
+
+input {
+    width: 56px;
+}
+
+select {
+    width: 100px;
+}
+
+.desc {
     font-size: small;
 }
 
-a {
-  color: black;
+.app {
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }

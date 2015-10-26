@@ -8,12 +8,12 @@ canvas {
     margin-right: 20px;
 }
 
-input {
-    width: 56px;
-}
-
 button {
     width: 96px;
+}
+
+input {
+    width: 56px;
 }
 
 .desc {
