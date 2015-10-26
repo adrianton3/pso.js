@@ -8,6 +8,7 @@
 	var searchSpaceSize = 500;
 
 	var domain = [new pso.Interval(0, searchSpaceSize), new pso.Interval(0, searchSpaceSize)];
+
 	var objectiveFunction = function (x) {
 		var distToClosestCircle = circles.reduce(function (prev, circle) {
 			var dist = Math.sqrt(Math.pow(circle.x - x[0], 2) + Math.pow(circle.y - x[1], 2));
@@ -60,12 +61,14 @@
 		});
 	}
 
-	function randomPoint() {
+	function randomCircle(minRadius) {
+		minRadius = minRadius || 0;
+
 		while (true) {
 			var x = Math.random() * searchSpaceSize;
 			var y = Math.random() * searchSpaceSize;
 			var radius = objectiveFunction([x, y]);
-			if (radius >= 0) {
+			if (radius >= minRadius) {
 				return {
 					x: x,
 					y: y,
@@ -76,7 +79,7 @@
 	}
 
 	function randMax() {
-		var point = randomPoint();
+		var point = randomCircle();
 
 		Draw.fillColor(getRandomColor());
 		Draw.circle(point.x, point.y, point.radius);
@@ -85,9 +88,9 @@
 	}
 
 	function randRand() {
-		var point = randomPoint();
+		var point = randomCircle(16);
 
-		point.radius *= (0.7 * Math.random() + 0.2);
+		point.radius *= 0.5 * Math.random() + 0.4;
 
 		Draw.fillColor(getRandomColor());
 		Draw.circle(point.x, point.y, point.radius);
@@ -99,7 +102,7 @@
         iterationNMax = parseInt(document.getElementById('inp_niter').value);
 
         initialPopulationSize = parseInt(document.getElementById('inp_popinit').value);
-        var inertiaWeight = parseFloat(document.getElementById('inp_accel').value);
+        var inertiaWeight = parseFloat(document.getElementById('inp_inertia').value);
         var social = parseFloat(document.getElementById('inp_social').value);
         var personal = parseFloat(document.getElementById('inp_personal').value);
 
@@ -112,6 +115,23 @@
 
 	function setup() {
 		Draw.init(document.getElementById('canvascircles'));
+
+		function createSliderPair(sliderId, inputId) {
+			associateSlider(
+				document.getElementById(sliderId),
+				document.getElementById(inputId)
+			);
+		}
+
+		[
+			['slider_niter', 'inp_niter'],
+			['slider_popinit', 'inp_popinit'],
+			['slider_inertia', 'inp_inertia'],
+			['slider_social', 'inp_social'],
+			['slider_personal', 'inp_personal']
+		].forEach(function (pair) {
+			createSliderPair.apply(null, pair);
+		});
 
 		document.getElementById('but_reset').addEventListener('click', reset);
 		document.getElementById('but_best').addEventListener('click', best);
@@ -127,5 +147,5 @@
 		randRand();
 	}
 
-	window.addEventListener('load', setup);
+	setup();
 })();

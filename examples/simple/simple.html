@@ -3,6 +3,7 @@
 <head>
 	<link rel="stylesheet" href="../lib/slider/slider.css">
 	<link rel="stylesheet" href="simple.css">
+	<title>Simple - pso.js demo</title>
 </head>
 <body>
 	<a href="https://github.com/adrianton3/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
@@ -13,19 +14,25 @@
 		<table>
 			<tr>
 				<td>
-					Start the search
+					Controls
 				</td>
 				<td>
-					<button id="but_start">Start</button>
+					<button id="but_start">Optimize</button>
+					<button id="but_stop">Stop</button>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					Stop the search
+					Function to optimize
 				</td>
 				<td>
-					<button id="but_stop">Stop</button>
+					<select id="lst_func">
+						<option>Rastrigin (x in [-5.12,5.12])</option>
+						<option>Easom (x in [-30,30])</option>
+						<option>exp(-(x-5)^2)*20 + cos(x*10) (x in [-10,10])</option>
+						<option>x^2 (x in [-5,5])</option>
+					</select>
 				</td>
 			</tr>
 
@@ -130,16 +137,16 @@
 			</tr>
 
 			<tr>
-				<td>
-					Function to maximize
+				<td colspan="2">
+					<hr/>
 				</td>
-				<td>
-					<select id="lst_func">
-						<option>Rastrigin (x in [-5.12,5.12])</option>
-						<option>Easom (x in [-30,30])</option>
-						<option>exp(-(x-5)^2)*20 + cos(x*10) (x in [-10,10])</option>
-						<option>x^2 (x in [-5,5])</option>
-					</select>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<span class="desc">
+						pso.js is used to find the global maximum of the selected function
+					</span>
 				</td>
 			</tr>
 		</table>

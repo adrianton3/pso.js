@@ -1,3 +1,7 @@
+body {
+    font-family: sans-serif;
+}
+
 input {
     width: 56px;
 }
@@ -14,8 +18,17 @@ input {
 
 canvas {
     border: 1px solid #888888;
+    margin-bottom: 20px;
 }
 
 button {
-    width: 64px;
+    width: 96px;
+}
+
+.desc {
+    font-size: small;
+}
+
+td:first-child {
+    min-width: 170px;
 }
