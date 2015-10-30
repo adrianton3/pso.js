@@ -2,6 +2,7 @@
 	'use strict';
 
 	var outTextarea = document.getElementById('out');
+
 	function log(text) {
 		outTextarea.value += text;
 	}
@@ -24,12 +25,13 @@
 	optimizer.init(initialPopulationSize, domain);
 
 	var iterations = 0, maxIterations = 10;
+
 	function loop() {
 		if (iterations >= maxIterations) {
 			log([
 				'\n--- ---\nOptimization done',
 				'Best value found: ' + optimizer.getBestFitness(),
-				''
+				'  for x = ' + optimizer.getBestPosition()[0]
 			].join('\n'));
 		} else {
 			iterations++;

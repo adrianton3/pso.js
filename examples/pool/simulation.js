@@ -71,6 +71,13 @@
 		}
 
 		function placeAll() {
+			var COLORS = {
+				wall: 'hsla(200, 70%, 40%, 1)',
+				hole: 'hsla(200, 70%, 50%, 1)',
+				ball: 'hsla(340, 90%, 60%, 1)',
+				main: 'hsla(340, 100%, 40%, 1)'
+			};
+
 			var groundMaterial = new p2.Material();
 			var boxMaterial = new p2.Material();
 
@@ -79,10 +86,15 @@
 				var length = 6.8;
 				var height = 10.8;
 
-				addEntity(getBox(4, 0, thickness, height, 0, groundMaterial), 'green', drawBox);
-				addEntity(getBox(-4, 0, thickness, height, 0, groundMaterial), 'green', drawBox);
-				addEntity(getBox(0, 6, length, thickness, 0, groundMaterial), 'green', drawBox);
-				addEntity(getBox(0, -6, length, thickness, 0, groundMaterial), 'green', drawBox);
+				[
+					{ x:  4,  y:  0, width: thickness, height: height },
+					{ x: -4,  y:  0, width: thickness, height: height },
+					{ x:  0,  y:  6, width: length, height: thickness },
+					{ x:  0,  y: -6, width: length, height: thickness }
+				].forEach(function (attributes) {
+					var box = getBox(attributes.x, attributes.y, attributes.width, attributes.height, 0, groundMaterial);
+					addEntity(box, COLORS.wall, drawBox);
+				});
 			}
 
 			function placeBalls() {
@@ -90,35 +102,44 @@
 				var dY = Math.sqrt(3) / 2;
 				var baseY = 4;
 
-				addEntity(getBall(-1.5, baseY - 1 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(-0.5, baseY - 1 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(0.5, baseY - 1 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(1.5, baseY - 1 * dY, radius, 1, boxMaterial), 'red', drawBall);
-
-				addEntity(getBall(-1.0, baseY - 2 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(0, baseY - 2 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(1.0, baseY - 2 * dY, radius, 1, boxMaterial), 'red', drawBall);
-
-				addEntity(getBall(-0.5, baseY - 3 * dY, radius, 1, boxMaterial), 'red', drawBall);
-				addEntity(getBall(0.5, baseY - 3 * dY, radius, 1, boxMaterial), 'red', drawBall);
-
-				addEntity(getBall(0, baseY - 4 * dY, radius, 1, boxMaterial), 'red', drawBall);
+				[
+					{ x: -1.5, y: baseY - dY },
+					{ x: -0.5, y: baseY - dY },
+					{ x:  0.5, y: baseY - dY },
+					{ x:  1.5, y: baseY - dY },
+					{ x: -1.0, y: baseY - 2 * dY },
+					{ x:  0.0, y: baseY - 2 * dY },
+					{ x:  1.0, y: baseY - 2 * dY },
+					{ x: -0.5, y: baseY - 3 * dY },
+					{ x:  0.5, y: baseY - 3 * dY },
+					{ x:  0.0, y: baseY - 4 * dY }
+				].forEach(function (position) {
+					var ball = getBall(position.x, position.y, radius, 1, boxMaterial);
+					addEntity(ball, COLORS.ball, drawBall);
+				});
 			}
 
 			function placeHoles() {
 				var radius = 0.6;
 
-				addEntity(getHole(4, 6, radius), 'blue', drawBall, 'sensor');
-				addEntity(getHole(-4, 6, radius), 'blue', drawBall, 'sensor');
-				addEntity(getHole(-4, -6, radius), 'blue', drawBall, 'sensor');
-				addEntity(getHole(4, -6, radius), 'blue', drawBall, 'sensor');
+				[
+					{ x:  4, y:  6 },
+					{ x: -4, y:  6 },
+					{ x: -4, y: -6 },
+					{ x:  4, y: -6 },
+					{ x:  4, y:  0 },
+					{ x: -4, y:  0 }
+				].forEach(function (position) {
+					var hole = getHole(position.x, position.y, radius);
+					addEntity(hole, COLORS.hole, drawBall, 'sensor');
+				});
 			}
 
 			placeWalls();
 			placeBalls();
 			placeHoles();
 
-			mainBall = addEntity(getBall(0, -3, 0.4, 1, boxMaterial), 'darkred', drawBall);
+			mainBall = addEntity(getBall(0, -3, 0.4, 1, boxMaterial), COLORS.main, drawBall);
 
 			world.addContactMaterial(new p2.ContactMaterial(boxMaterial, groundMaterial, {
 				friction: 0.6
