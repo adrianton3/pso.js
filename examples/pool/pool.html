@@ -2,52 +2,61 @@
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
-	<title>pso.js + p2.js: pool</title>
-	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="pool.css">
-	<script src="../lib/p2.min.js"></script>
-	<script src="draw-a.js"></script>
+	<title>Pool breaking shot - pso.js demo</title>
 </head>
 <body>
 	<a href="https://github.com/adrianton3/pso.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 
-	<div class="title">
-		<a href="https://github.com/adrianton3/pso.js">pso.js</a> +
-		<a href="https://github.com/schteppe/p2.js">p2.js</a>
+	<div class="app">
+		<p class="desc">
+			In this example pso.js is used to get as many balls in
+			the pockets as possible in the first/break shot of a game of pool.
+		</p>
+
+		<canvas width="400" height="400" id="plot-can"></canvas>
+		<canvas width="400" height="400" id="sim-can"></canvas>
+
+		<div id="status-container">Status: <span id="status">idle</span></div>
+
+		<table>
+			<tr>
+				<td class="title spaced">Plotting controls</td>
+				<td>Angle samples</td>
+				<td class="spaced"><select id="resolutionX"></select></td>
+				<td>Force samples</td>
+				<td class="spaced"><select id="resolutionY"></select></td>
+				<td><button id="plot">Plot</button></td>
+			</tr>
+			<tr>
+				<td class="title spaced">Optimizer controls</td>
+				<td>Number of particles</td>
+				<td class="spaced"><select id="particles"></select></td>
+				<td>Iterations</td>
+				<td class="spaced"><select id="iterations"></select></td>
+				<td><button id="best">Search</button></td>
+			</tr>
+		</table>
+
+		<p class="desc">
+			The only parameters that a simulation takes are the angle of the
+			shot and the force applied. The angle varies between PI/4 and PI/2
+			(the range has been halved since the setup of the table is symmetric).
+			The force varies between 200 and 2000 units (in p2.js terms). In the
+			plot, the angle varies on the X (horizontal) axis and the force
+			varies on the Y (vertical) axis.
+		</p>
+		<p class="desc">
+			The plot is obtained by running the simulation in a brute-force manner.
+			The number of balls that reach pockets is color-coded from indigo
+			to red. Indigo indicates that no balls have reached the pockets
+			while colors towards the red end of the spectrum indicate more
+			balls in the pockets.
+		</p>
 	</div>
-	<div class="desc">In this example pso.js will be used to try to get as many balls in the pockets as possible in the first/break shot.<br>The physics simulations are handled by the physics library p2.js</div>
-	<br>
 
-	<canvas width="400" height="400" id="plot-can"></canvas>
-	<canvas width="400" height="400" id="sim-can"></canvas>
-
-	<br>
-	<div id="status-container">Status: <span id="status">idle</span></div>
-	<br>
-
-	<table>
-		<tr>
-			<td class="title spaced">Plotting controls</td>
-			<td>Angle samples</td>
-			<td class="spaced"><select id="resolutionX"></select></td>
-			<td>Force samples</td>
-			<td class="spaced"><select id="resolutionY"></select></td>
-			<td><button id="plot">Plot</button></td>
-		</tr>
-		<tr>
-			<td class="title spaced">Optimizer controls</td>
-			<td>Number of particles</td>
-			<td class="spaced"><select id="particles"></select></td>
-			<td>Iterations</td>
-			<td class="spaced"><select id="iterations"></select></td>
-			<td><button id="best">Search</button></td>
-		</tr>
-	</table>
-
-	<br>
-	<div class="desc">The only parameters that a simulation takes are the angle of the shot and the force applied. Angle varies between PI/4 and PI/2 (the range has been halved since the setup of table is symmetric). The force varies between 200 and 2000 units (in p2 terms). In the plot, the angle varies on the X (horizontal) axis and the force varies on the Y (vertical) axis.</div>
-
-
+	<script src="../lib/p2.min.js"></script>
+	<script src="draw-a.js"></script>
 	<script type="text/javascript" src="../../src/pso.js"></script>
 
 	<script src="throttler.js"></script>

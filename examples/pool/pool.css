@@ -3,9 +3,16 @@ body {
     font-size: small;
 }
 
+.app {
+    width: 808px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 canvas {
     border: solid grey 1px;
     position: relative;
+    cursor: crosshair;
 }
 
 .title {
@@ -19,6 +26,7 @@ canvas {
 #status-container {
     font-weight: bold;
     padding-left: 1px;
+    margin-bottom: 16px;
 }
 
 #status {
